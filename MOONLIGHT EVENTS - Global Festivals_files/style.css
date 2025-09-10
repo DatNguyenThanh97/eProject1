@@ -151,6 +151,9 @@ body {
   display: none;
 }
 [data-route].active {
+  display: block;
+}
+[data-route="home"].active {
   display: flex;
 }
 .nav-menu a.active-link {
@@ -166,7 +169,7 @@ body {
   align-items: center;
   text-align: center;
   color: var(--white);
-  margin-top: 80px;
+  margin-top: 70px;
 }
 .hero-content h1 {
   font-size: 3.5rem;

@@ -1,5 +1,5 @@
 <?php
-  include 'db_connect.php';
+  require_once 'db_connect.php';
   $db = get_db();
   $db->query("UPDATE visitor_count SET total_visits = total_visits + 1 WHERE id = 1"); 
   $visitor_total = 0; 
