@@ -203,7 +203,7 @@ if (document.readyState === "loading") {
 window.addEventListener("scroll", function () {
   const header = document.querySelector(".header");
   if (window.scrollY > 100) {
-    header.style.background = "rgba(255, 107, 53, 0.95)";
+    header.style.background = "rgba(29, 18, 69, 0.95)";
     header.style.backdropFilter = "blur(10px)";
   } else {
     header.style.background =
