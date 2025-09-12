@@ -1,14 +1,10 @@
 <?php
-  require_once 'db_connect.php';
-  $db = get_db();
-  $db->query("UPDATE visitor_count SET total_visits = total_visits + 1 WHERE id = 1"); 
-  $visitor_total = 0; 
-  if ($res = @$db->query("SELECT total_visits FROM visitor_count WHERE id = 1")) { 
-    if ($row = $res->fetch_assoc()) { 
-      $visitor_total = (int)$row['total_visits']; 
-    } 
-    $res->free(); 
-  }
+require_once 'db_connect.php';
+require_once 'site_data.php';
+
+$db = get_db();
+$visitor_total = get_visitor_count($db);
+$hero = get_hero_data($db);
 ?>
 <!DOCTYPE html>
 <html lang="en-US" class="js scheme_light">
@@ -96,15 +92,12 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="hero" data-route="home">
+    <section id="home" class="hero" data-route="home <?php echo htmlspecialchars($hero["slug"]); ?>"
+    style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<?php echo htmlspecialchars($hero["bg"]); ?>');">
       <div class="container">
         <div class="hero-content">
-          <h1>Global Festivals Around the World</h1>
-          <p>
-            MOONLIGHT EVENTS organizes festivals worldwide, promoting cultural
-            understanding and tolerance among youth through the celebration of
-            diverse traditions and artistic expressions.
-          </p>
+          <h1><?php echo htmlspecialchars($hero["title"]); ?></h1>
+          <p><?php echo htmlspecialchars($hero["desc"]); ?></p>
           <a href="#festivals" class="cta-button">Explore Festivals</a>
         </div>
       </div>

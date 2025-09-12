@@ -1,21 +1,22 @@
-<<<<<<< HEAD
 /* MOONLIGHT EVENTS - Gallery styles */
 
-.gallery-grid { align-items: stretch; }
-.gallery-item { background: #000; }
-.gallery-item img { display: block; width: 100%; height: auto; }
-.gallery-overlay h4 { margin: 0 0 4px; font-size: 1rem; }
-.gallery-overlay p { margin: 0; font-size: .9rem; opacity: .9; }
-
-
-=======
-/* MOONLIGHT EVENTS - Gallery styles */
-
-.gallery-grid { align-items: stretch; }
-.gallery-item { background: #000; }
-.gallery-item img { display: block; width: 100%; height: auto; }
-.gallery-overlay h4 { margin: 0 0 4px; font-size: 1rem; }
-.gallery-overlay p { margin: 0; font-size: .9rem; opacity: .9; }
-
-
->>>>>>> upstream/main
+.gallery-grid {
+  align-items: stretch;
+}
+.gallery-item {
+  background: #000;
+}
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.gallery-overlay h4 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+.gallery-overlay p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}

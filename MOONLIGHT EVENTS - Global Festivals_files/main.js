@@ -173,7 +173,11 @@ function renderRoute() {
   const hash = window.location.hash.replace("#", "");
   const route = routes.includes(hash) ? hash : "home";
   document.querySelectorAll("[data-route]").forEach((sec) => {
-    sec.classList.toggle("active", sec.getAttribute("data-route") === route);
+    // Cho phép data-route bắt đầu bằng route
+    sec.classList.toggle(
+      "active",
+      sec.getAttribute("data-route").startsWith(route)
+    );
   });
   setActiveLink(route);
   // scroll to top on route change

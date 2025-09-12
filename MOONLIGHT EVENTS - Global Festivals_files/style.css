@@ -153,7 +153,7 @@ body {
 [data-route].active {
   display: block;
 }
-[data-route="home"].active {
+[data-route^="home"].active {
   display: flex;
 }
 .nav-menu a.active-link {
@@ -161,8 +161,8 @@ body {
 }
 /* Hero */
 .hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("./MOONLIGHT EVENTS - Global Festivals_files/hero-bg.jpg");
+  /* background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("./MOONLIGHT EVENTS - Global Festivals_files/hero-bg.jpg"); */
   background-size: cover;
   background-position: center;
   height: 100vh;

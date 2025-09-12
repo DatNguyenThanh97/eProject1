@@ -1,39 +1,28 @@
-<<<<<<< HEAD
 /* MOONLIGHT EVENTS - Responsive tweaks */
 
 @media (max-width: 1024px) {
-  .header .nav-menu { gap: 1.25rem; }
+  .header .nav-menu {
+    gap: 1.25rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .visitor-count { display: none; }
-  .section-title { font-size: 2rem; }
-  .gallery-grid img { height: 200px; }
+  .visitor-count {
+    display: none;
+  }
+  .section-title {
+    font-size: 2rem;
+  }
+  .gallery-grid img {
+    height: 200px;
+  }
 }
 
 @media (max-width: 480px) {
-  .cta-button { padding: 12px 20px; }
-  .header { padding: 0.75rem 0; }
+  .cta-button {
+    padding: 12px 20px;
+  }
+  .header {
+    padding: 0.75rem 0;
+  }
 }
-
-
-=======
-/* MOONLIGHT EVENTS - Responsive tweaks */
-
-@media (max-width: 1024px) {
-  .header .nav-menu { gap: 1.25rem; }
-}
-
-@media (max-width: 768px) {
-  .visitor-count { display: none; }
-  .section-title { font-size: 2rem; }
-  .gallery-grid img { height: 200px; }
-}
-
-@media (max-width: 480px) {
-  .cta-button { padding: 12px 20px; }
-  .header { padding: 0.75rem 0; }
-}
-
-
->>>>>>> upstream/main
