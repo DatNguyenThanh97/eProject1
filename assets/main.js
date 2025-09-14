@@ -39,78 +39,27 @@ if (navigator.geolocation) {
 }
 
 // Festival Modal
-function openFestivalModal(festivalType) {
+function openFestivalModal(slug) {
   const modal = document.getElementById("festivalModal");
   const modalContent = document.getElementById("modalContent");
 
-  let content = "";
-
-  switch (festivalType) {
-    case "india":
-      content = `
-            <h2>Indian Festivals</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
-                <div>
-                    <img src="./MOONLIGHT EVENTS - Global Festivals_files/india-festival.jpg" alt="Indian Festival" style="width: 100%; border-radius: 10px;">
-                </div>
-                <div>
-                    <h3>Cultural Significance</h3>
-                    <p>Indian festivals are deeply rooted in ancient traditions and religious beliefs, celebrating the diversity of cultures across the subcontinent.</p>
-                    
-                    <h3>Major Festivals</h3>
-                    <ul style="margin: 1rem 0; padding-left: 2rem;">
-                        <li><strong>Diwali:</strong> Festival of Lights (October/November)</li>
-                        <li><strong>Holi:</strong> Festival of Colors (March)</li>
-                        <li><strong>Navratri:</strong> Nine Nights of Dance (September/October)</li>
-                        <li><strong>Raksha Bandhan:</strong> Bond of Protection (August)</li>
-                    </ul>
-                    
-                    <h3>Historical Importance</h3>
-                    <p>These festivals have been celebrated for thousands of years, preserving cultural heritage and promoting unity among diverse communities.</p>
-                    
-                    <a href="#" class="cta-button" onclick="downloadFestivalInfo('india')">Download Information (PDF)</a>
-                </div>
-            </div>
-        `;
-      break;
-
-    case "japan":
-      content = `
-            <h2>Japanese Festivals</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
-                <div>
-                    <img src="./MOONLIGHT EVENTS - Global Festivals_files/japan-festival.jpg" alt="Japanese Festival" style="width: 100%; border-radius: 10px;">
-                </div>
-                <div>
-                    <h3>Cultural Significance</h3>
-                    <p>Japanese festivals (matsuri) reflect the country's deep connection with nature, seasons, and spiritual beliefs.</p>
-                    
-                    <h3>Major Festivals</h3>
-                    <ul style="margin: 1rem 0; padding-left: 2rem;">
-                        <li><strong>Hanami:</strong> Cherry Blossom Viewing (March/April)</li>
-                        <li><strong>Tanabata:</strong> Star Festival (July 7)</li>
-                        <li><strong>Obon:</strong> Festival of the Dead (August)</li>
-                        <li><strong>Gion Matsuri:</strong> Kyoto's Grand Festival (July)</li>
-                    </ul>
-                    
-                    <h3>Historical Importance</h3>
-                    <p>These festivals showcase Japan's unique blend of Shinto and Buddhist traditions, celebrating the harmony between humans and nature.</p>
-                    
-                    <a href="#" class="cta-button" onclick="downloadFestivalInfo('japan')">Download Information (PDF)</a>
-                </div>
-            </div>
-        `;
-      break;
-
-    default:
-      content = `
-            <h2>Festival Information</h2>
-            <p>Detailed information about this festival will be available soon. Please check back later for updates.</p>
-        `;
-  }
-
-  modalContent.innerHTML = content;
-  modal.style.display = "block";
+  // Gọi PHP để lấy nội dung festival
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    "../components/festival-modal.php?slug=" + encodeURIComponent(slug),
+    true
+  );
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      modalContent.innerHTML = xhr.responseText;
+      modal.style.display = "block";
+    } else {
+      modalContent.innerHTML = "<p>Không tải được dữ liệu festival.</p>";
+      modal.style.display = "block";
+    }
+  };
+  xhr.send();
 }
 
 function closeFestivalModal() {
@@ -171,7 +120,7 @@ function setActiveLink(route) {
 }
 function renderRoute() {
   const hash = window.location.hash.replace("#", "");
-  const route = routes.includes(hash) ? hash : "home";
+  const route = routes.find((r) => hash.startsWith(r));
   document.querySelectorAll("[data-route]").forEach((sec) => {
     // Cho phép data-route bắt đầu bằng route
     sec.classList.toggle(
@@ -203,7 +152,7 @@ if (document.readyState === "loading") {
 window.addEventListener("scroll", function () {
   const header = document.querySelector(".header");
   if (window.scrollY > 100) {
-    header.style.background = "rgba(29, 18, 69, 0.95)";
+    header.style.background = "#190d53b8";
     header.style.backdropFilter = "blur(10px)";
   } else {
     header.style.background =

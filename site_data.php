@@ -34,7 +34,7 @@
             "slug"  => "default-hero",
             "title" => "Global Festivals Around the World",
             "desc"  => "MOONLIGHT EVENTS organizes festivals worldwide, promoting cultural understanding and tolerance among youth through the celebration of diverse traditions and artistic expressions.",
-            "bg"    => "./MOONLIGHT EVENTS - Global Festivals_files/images/default-hero.jpg"
+            "bg"    => "./assets/images/default-hero.jpg"
         ];
     }
 

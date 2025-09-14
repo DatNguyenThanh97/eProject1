@@ -25,25 +25,25 @@ $festivalClass = getFestivalClassFromDB();
     <!-- CSS Files -->
     <link
       rel="stylesheet"
-      href="./MOONLIGHT EVENTS - Global Festivals_files/style.css"
+      href="./assets/css/style.css"
       type="text/css"
       media="all"
     />
     <link
       rel="stylesheet"
-      href="./MOONLIGHT EVENTS - Global Festivals_files/responsive.css"
+      href="./assets/css/responsive.css"
       type="text/css"
       media="(max-width:1439px)"
     />
     <link
       rel="stylesheet"
-      href="./MOONLIGHT EVENTS - Global Festivals_files/animations.css"
+      href="./assets/css/animations.css"
       type="text/css"
       media="all"
     />
     <link
       rel="stylesheet"
-      href="./MOONLIGHT EVENTS - Global Festivals_files/gallery.css"
+      href="./assets/css/gallery.css"
       type="text/css"
       media="all"
     />
@@ -155,193 +155,13 @@ $festivalClass = getFestivalClassFromDB();
       </div>
     </section>
 
-    <!-- Festival Categories by Country -->
-    <section id="festivals" class="festival-categories" data-route="festivals">
-      <div class="container">
-        <h2 class="section-title">Festivals by Country</h2>
-
-        <div class="categories-grid">
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/india-festival.jpg"
-              alt="Indian Festivals"
-            />
-            <div class="category-content">
-              <h3>India</h3>
-              <p>
-                Experience the vibrant colors and rich traditions of Diwali,
-                Holi, and other cultural celebrations.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('india')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/japan-festival.jpg"
-              alt="Japanese Festivals"
-            />
-            <div class="category-content">
-              <h3>Japan</h3>
-              <p>
-                Discover the beauty of Cherry Blossom festivals, Tanabata, and
-                traditional matsuri celebrations.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('japan')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/brazil-festival.jpg"
-              alt="Brazilian Festivals"
-            />
-            <div class="category-content">
-              <h3>Brazil</h3>
-              <p>
-                Immerse yourself in the energy of Carnival, Festa Junina, and
-                other Brazilian cultural events.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('brazil')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/mexico-festival.jpg"
-              alt="Mexican Festivals"
-            />
-            <div class="category-content">
-              <h3>Mexico</h3>
-              <p>
-                Celebrate Dia de los Muertos, Cinco de Mayo, and other vibrant
-                Mexican traditions.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('mexico')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/thailand-festival.jpg"
-              alt="Thai Festivals"
-            />
-            <div class="category-content">
-              <h3>Thailand</h3>
-              <p>
-                Experience Songkran, Loy Krathong, and other beautiful Thai
-                cultural celebrations.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('thailand')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/italy-festival.jpg"
-              alt="Italian Festivals"
-            />
-            <div class="category-content">
-              <h3>Italy</h3>
-              <p>
-                Discover Carnevale di Venezia, Palio di Siena, and other Italian
-                cultural treasures.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('italy')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Festival Categories by Religion -->
-    <section class="festival-categories" style="background: var(--white)" data-route="festivals">
-      <div class="container">
-        <h2 class="section-title">Festivals by Religion</h2>
-
-        <div class="categories-grid">
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/hindu-festival.jpg"
-              alt="Hindu Festivals"
-            />
-            <div class="category-content">
-              <h3>Hindu Festivals</h3>
-              <p>
-                Celebrate Diwali, Holi, Navratri, and other sacred Hindu
-                celebrations.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('hindu')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/christian-festival.jpg"
-              alt="Christian Festivals"
-            />
-            <div class="category-content">
-              <h3>Christian Festivals</h3>
-              <p>
-                Experience Christmas, Easter, and other Christian religious
-                celebrations.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('christian')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/islamic-festival.jpg"
-              alt="Islamic Festivals"
-            />
-            <div class="category-content">
-              <h3>Islamic Festivals</h3>
-              <p>
-                Celebrate Eid al-Fitr, Eid al-Adha, and other Islamic cultural
-                events.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('islamic')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-
-          <div class="category-card">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/buddhist-festival.jpg"
-              alt="Buddhist Festivals"
-            />
-            <div class="category-content">
-              <h3>Buddhist Festivals</h3>
-              <p>
-                Discover Vesak, Songkran, and other Buddhist cultural
-                celebrations.
-              </p>
-              <a href="#" class="btn" onclick="openFestivalModal('buddhist')"
-                >Learn More</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+     <!-- Festival Categories -->
+  <section id="festivals" class="festival-categories" data-route="festivals">
+    <div class="container">
+      <h2 class="section-title">All Festivals</h2>
+      <?php include "./components/festival-grid.php"; ?>
+    </div>
+  </section>
 
     <!-- Filters Section -->
     <section class="filters" data-route="festivals" data-route="gallery">
@@ -679,7 +499,6 @@ $festivalClass = getFestivalClassFromDB();
     </div>
 
     <!-- JavaScript -->
-    <!-- JavaScript -->
-    <script src="./MOONLIGHT EVENTS - Global Festivals_files/main.js"></script>
+    <script src="./assets/main.js"></script>
   </body>
 </html>
