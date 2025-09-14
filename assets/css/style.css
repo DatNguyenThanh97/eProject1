@@ -246,7 +246,8 @@ body.mid-autumn .logo-text {
 }
 /* Sections */
 .festival-categories {
-  padding: 5rem 0;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
   background: var(--bg-light);
 }
 .section-title {
@@ -333,7 +334,7 @@ body.mid-autumn .logo-text {
 .filters {
   background: var(--white);
   padding: 2rem 0;
-  margin: 2rem 0;
+  margin-bottom: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
 }

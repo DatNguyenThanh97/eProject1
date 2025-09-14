@@ -73,6 +73,12 @@ window.addEventListener("click", function (event) {
     modal.style.display = "none";
   }
 });
+// Close modal with Escape key
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeFestivalModal();
+  }
+});
 
 // Download functions
 function downloadAboutPDF() {
@@ -120,6 +126,10 @@ function setActiveLink(route) {
 }
 function renderRoute() {
   const hash = window.location.hash.replace("#", "");
+  if (!hash) {
+    // Không có hash (ví dụ ?page=2) → bỏ qua, để server render
+    return;
+  }
   const route = routes.find((r) => hash.startsWith(r));
   document.querySelectorAll("[data-route]").forEach((sec) => {
     // Cho phép data-route bắt đầu bằng route
@@ -164,7 +174,86 @@ window.addEventListener("scroll", function () {
 // Filter functionality
 document.querySelectorAll(".filter-select").forEach((select) => {
   select.addEventListener("change", function () {
-    // Filter logic will be implemented here
+    const religionFilter = document.getElementById("religionFilter").value;
+    const monthFilter = document.getElementById("monthFilter").value;
+    const collectionFilter = document.getElementById("collectionFilter").value;
+
+    // Check if all filters are empty (user selected "All")
+    if (!religionFilter && !monthFilter && !collectionFilter) {
+      // Return to original paginated view
+      clearFilters();
+      return;
+    }
+
+    applyFilters();
     console.log("Filter changed:", this.value);
   });
 });
+function applyFilters() {
+  const religionFilter = document.getElementById("religionFilter").value;
+  const monthFilter = document.getElementById("monthFilter").value;
+  const collectionFilter = document.getElementById("collectionFilter").value;
+
+  // Build query parameters for filter
+  const params = new URLSearchParams();
+  if (religionFilter) params.set("religion", religionFilter);
+  if (monthFilter) params.set("month", monthFilter);
+  if (collectionFilter) params.set("collection", collectionFilter);
+
+  // Get festival container
+  const festivalSection = document.querySelector(
+    '[data-route="festivals"] .container'
+  );
+  if (!festivalSection) return;
+
+  const gridContainer = festivalSection.querySelector("h2").nextElementSibling;
+  if (!gridContainer) return;
+
+  // Show loading
+  gridContainer.innerHTML =
+    '<div style="text-align:center;padding:2rem;">Đang lọc...</div>';
+
+  // AJAX call to filter endpoint
+  fetch(`components/filter-festivals.php?${params}`)
+    .then((response) => response.text())
+    .then((html) => {
+      gridContainer.innerHTML = html;
+    })
+    .catch((error) => {
+      console.error("Error filtering festivals:", error);
+      gridContainer.innerHTML =
+        '<div style="text-align:center;padding:2rem;color:red;">Lỗi khi lọc dữ liệu</div>';
+    });
+}
+
+function clearFilters() {
+  // Reset all filters
+  document.getElementById("religionFilter").value = "";
+  document.getElementById("monthFilter").value = "";
+  document.getElementById("collectionFilter").value = "";
+
+  // Reload original festival grid with pagination
+  const festivalSection = document.querySelector(
+    '[data-route="festivals"] .container'
+  );
+  if (!festivalSection) return;
+
+  const gridContainer = festivalSection.querySelector("h2").nextElementSibling;
+  if (!gridContainer) return;
+
+  // Show loading
+  gridContainer.innerHTML =
+    '<div style="text-align:center;padding:2rem;">Đang tải...</div>';
+
+  // Load original paginated content
+  fetch("components/festival-grid.php")
+    .then((response) => response.text())
+    .then((html) => {
+      gridContainer.innerHTML = html;
+    })
+    .catch((error) => {
+      console.error("Error loading festivals:", error);
+      gridContainer.innerHTML =
+        '<div style="text-align:center;padding:2rem;color:red;">Lỗi khi tải dữ liệu</div>';
+    });
+}

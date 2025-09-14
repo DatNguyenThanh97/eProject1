@@ -12,9 +12,12 @@ $total = $totalRow['total'];
 $totalPages = ceil($total / $limit);
 
 $sql = "
-    SELECT festival_id, slug, name, description, thumbnail_url
+    SELECT festival_id, slug, name, description, thumbnail_url, start_date
     FROM festival
-    ORDER BY start_date DESC
+    ORDER BY CASE 
+            WHEN start_date >= CURDATE() THEN start_date
+            ELSE DATE_ADD(start_date, INTERVAL 1 YEAR)
+        END ASC
     LIMIT $limit OFFSET $offset
 ";
 $result = $db->query($sql);
@@ -40,17 +43,17 @@ $result = $db->query($sql);
 <!-- Pagination -->
 <div class="pagination">
   <?php if ($page > 1): ?>
-    <a href="?page=<?= $page - 1 ?>" class="prev">« Prev</a>
+    <a href="?page=<?= $page - 1 ?>#festivals" class="prev">« Prev</a>
   <?php endif; ?>
 
   <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-    <a href="?page=<?= $i ?>" class="<?= $i == $page ? 'active' : '' ?>">
+    <a href="?page=<?= $i ?>#festivals" class="<?= $i == $page ? 'active' : '' ?>">
       <?= $i ?>
     </a>
   <?php endfor; ?>
 
   <?php if ($page < $totalPages): ?>
-    <a href="?page=<?= $page + 1 ?>" class="next">Next »</a>
+    <a href="?page=<?= $page + 1 ?>#festivals" class="next">Next »</a>
   <?php endif; ?>
 </div>
 
