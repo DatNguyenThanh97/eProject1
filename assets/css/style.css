@@ -302,6 +302,33 @@ body.mid-autumn .logo-text {
 .category-content .btn:hover {
   background: var(--accent-color);
 }
+.pagination {
+  text-align: center;
+  margin-top: 2rem;
+}
+.pagination a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 8px 14px;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.pagination a:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+.pagination a.active {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: bold;
+}
+.pagination a.prev,
+.pagination a.next {
+  font-weight: bold;
+}
 /* Filters */
 .filters {
   background: var(--white);

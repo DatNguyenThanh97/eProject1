@@ -1,5 +1,6 @@
 <?php
-require_once './db_connect.php';
+require_once __DIR__ . '/../db_connect.php';
+$db = get_db(); 
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $stmt = $db->prepare("SELECT * FROM festival WHERE slug = ?");

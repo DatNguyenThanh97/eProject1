@@ -47,7 +47,7 @@ function openFestivalModal(slug) {
   const xhr = new XMLHttpRequest();
   xhr.open(
     "GET",
-    "../components/festival-modal.php?slug=" + encodeURIComponent(slug),
+    "components/festival-modal.php?slug=" + encodeURIComponent(slug),
     true
   );
   xhr.onload = function () {
