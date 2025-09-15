@@ -159,7 +159,10 @@ $festivalClass = getFestivalClassFromDB();
   <section id="festivals" class="festival-categories" data-route="festivals">
     <div class="container">
       <h2 class="section-title">All Festivals</h2>
-      <?php include "./components/festival-grid.php"; ?>
+      <div id="festivalsGridContainer">
+        <?php include "./components/festival-grid.php"; ?>
+      </div>
+      <div id="filterInfo"></div>
     </div>
   </section>
 

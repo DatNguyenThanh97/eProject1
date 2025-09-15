@@ -90,11 +90,6 @@ body {
 }
 /* Header */
 .header {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--accent-color)
-  );
   color: var(--white);
   padding: 0.5rem 0;
   position: fixed;
@@ -143,13 +138,13 @@ body.halloween .logo-text {
 /* Christmas */
 body.christmas .logo-icon,
 body.christmas .logo-text {
-  color: green;
-  filter: drop-shadow(0 0 5px white) drop-shadow(0 0 15px green);
+  color: rgb(161, 227, 248);
+  filter: drop-shadow(0 0 5px #77ffe6) drop-shadow(0 0 15px #2ab8ff);
 }
 
 /* Mid-Autumn */
-body.mid-autumn .logo-icon,
-body.mid-autumn .logo-text {
+body.mid-autumn-festival .logo-icon,
+body.mid-autumn-festival .logo-text {
   color: gold;
   filter: drop-shadow(0 0 10px gold) drop-shadow(0 0 20px orange);
 }
@@ -204,8 +199,6 @@ body.mid-autumn .logo-text {
 }
 /* Hero */
 .hero {
-  /* background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("./MOONLIGHT EVENTS - Global Festivals_files/hero-bg.jpg"); */
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -357,6 +350,16 @@ body.mid-autumn .logo-text {
 .filter-select:hover {
   background: var(--primary-color);
   color: var(--white);
+}
+.no-results-message {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  width: 100%;
+}
+.no-results-message p {
+  margin: 0;
+  font-size: 1.1rem;
 }
 /* Gallery */
 .gallery {

@@ -200,13 +200,7 @@ function applyFilters() {
   if (monthFilter) params.set("month", monthFilter);
   if (collectionFilter) params.set("collection", collectionFilter);
 
-  // Get festival container
-  const festivalSection = document.querySelector(
-    '[data-route="festivals"] .container'
-  );
-  if (!festivalSection) return;
-
-  const gridContainer = festivalSection.querySelector("h2").nextElementSibling;
+  const gridContainer = document.getElementById("festivalsGridContainer");
   if (!gridContainer) return;
 
   // Show loading
@@ -218,6 +212,18 @@ function applyFilters() {
     .then((response) => response.text())
     .then((html) => {
       gridContainer.innerHTML = html;
+
+      // Scroll lên đầu section festivals
+      // cuộn đến section Festivals mà không đổi URL
+      const target = document.getElementById("festivals");
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 50);
+      }
     })
     .catch((error) => {
       console.error("Error filtering festivals:", error);
@@ -232,13 +238,7 @@ function clearFilters() {
   document.getElementById("monthFilter").value = "";
   document.getElementById("collectionFilter").value = "";
 
-  // Reload original festival grid with pagination
-  const festivalSection = document.querySelector(
-    '[data-route="festivals"] .container'
-  );
-  if (!festivalSection) return;
-
-  const gridContainer = festivalSection.querySelector("h2").nextElementSibling;
+  const gridContainer = document.getElementById("festivalsGridContainer");
   if (!gridContainer) return;
 
   // Show loading
@@ -250,6 +250,18 @@ function clearFilters() {
     .then((response) => response.text())
     .then((html) => {
       gridContainer.innerHTML = html;
+
+      // Scroll lên đầu section festivals
+      // cuộn đến section Festivals mà không đổi URL
+      const target = document.getElementById("festivals");
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 50);
+      }
     })
     .catch((error) => {
       console.error("Error loading festivals:", error);

@@ -18,13 +18,18 @@ if ($religionFilter) {
         'christian' => 'Christianity', 
         'islamic' => 'Islam',
         'buddhist' => 'Buddhism',
-        'secular' => 'Secular'
+        'secular' => null
     ];
     
-    $dbReligionName = $religionMap[$religionFilter] ?? ucfirst($religionFilter);
-    $whereConditions[] = "r.name = ?";
-    $params[] = $dbReligionName;
-    $types .= 's';
+    if (array_key_exists($religionFilter, $religionMap)) {
+        if ($religionMap[$religionFilter] === null) {
+            $whereConditions[] = "f.religion_id IS NULL";
+        } else {
+            $whereConditions[] = "r.name = ?";
+            $params[] = $religionMap[$religionFilter];
+            $types .= 's';
+        }
+    }
 }
 
 if ($monthFilter) {
@@ -62,8 +67,8 @@ if (!empty($params)) {
 }
 ?>
 
-<div class="categories-grid">
-  <?php if ($result->num_rows > 0): ?>
+<?php if ($result->num_rows > 0): ?>
+  <div class="categories-grid">
     <?php while ($row = $result->fetch_assoc()): ?>
       <div class="category-card">
         <img src="<?= htmlspecialchars($row['thumbnail_url'] ?: 'assets/images/default.jpg') ?>"
@@ -77,16 +82,19 @@ if (!empty($params)) {
         </div>
       </div>
     <?php endwhile; ?>
-  <?php else: ?>
-    <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
-      <p>Không tìm thấy festival nào phù hợp với bộ lọc.</p>
-    </div>
-  <?php endif; ?>
-</div>
+  </div>
 
-<!-- No pagination for filtered results -->
 <?php if (!empty($whereConditions)): ?>
-  <div style="text-align: center; padding: 1rem; color: #666;">
-    <p>Hiển thị kết quả lọc (<?= $result->num_rows ?> festivals). <a href="#festivals" onclick="clearFilters()">Xem tất cả</a></p>
+    <div id="filterResultInfo" style="text-align:center; padding:1rem; color:#666;">
+      Hiển thị kết quả lọc (<?= $result->num_rows ?> festivals).
+      <a href="index.php#festivals" onclick="clearFilters(event)">Xem tất cả</a>
+    </div>
+ <?php endif; ?>
+
+<?php else: ?>
+  <!-- No result: render an independent block (not inside .categories-grid) -->
+  <div class="no-results-message">
+    <p>Không tìm thấy festival nào phù hợp với bộ lọc.</p>
+    <p><a href="index.php#festivals" onclick="clearFilters(event)">Xem tất cả</a></p>
   </div>
 <?php endif; ?>
