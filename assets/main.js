@@ -102,7 +102,7 @@ function openFAQModal() {
 
 // Site Map
 function openSiteMap() {
-  alert("Site Map will be available soon!");
+  window.open("assets/site/sitemap.xml");
 }
 
 // Feedback Form
