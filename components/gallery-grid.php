@@ -11,8 +11,9 @@ $offset = ($page - 1) * $limit;
 
 // COUNT query
 $countSql = "
-    SELECT COUNT(DISTINCT f.festival_id) AS total
-    FROM festival f
+    SELECT COUNT(DISTINCT g.gallery_id) AS total
+    FROM gallery g
+    JOIN festival f ON g.festival_id = f.festival_id
     LEFT JOIN religion r ON f.religion_id = r.religion_id
     LEFT JOIN festival_country fc ON f.festival_id = fc.festival_id
     LEFT JOIN country co ON fc.country_id = co.country_id
@@ -46,11 +47,11 @@ $totalPages = ceil($total / $limit);
 
 // Query chính
 $sql = "
-    SELECT f.festival_id, f.name, f.slug, f.description, f.thumbnail_url,
-           f.start_date, f.end_date,
-           r.name AS religion_name,
+    SELECT g.gallery_id, g.image_url, g.caption,
+           f.name AS festival_name, f.slug,
            GROUP_CONCAT(DISTINCT co.name SEPARATOR ', ') AS countries
-    FROM festival f
+    FROM gallery g
+    JOIN festival f ON g.festival_id = f.festival_id
     LEFT JOIN religion r ON f.religion_id = r.religion_id
     LEFT JOIN festival_country fc ON f.festival_id = fc.festival_id
     LEFT JOIN country co ON fc.country_id = co.country_id
@@ -77,16 +78,13 @@ if ($country) {
 }
 
 $sql .= "
-    GROUP BY f.festival_id
-    ORDER BY CASE 
-              WHEN f.start_date >= CURDATE() THEN f.start_date
-              ELSE DATE_ADD(f.start_date, INTERVAL 1 YEAR)
-            END ASC
+    GROUP BY g.gallery_id
+    ORDER BY g.gallery_id DESC
     LIMIT ? OFFSET ?
 ";
 
-$params[] = $limit;
-$params[] = $offset;
+$params[] = (int)$limit;
+$params[] = (int)$offset;
 $types   .= "ii";
 
 $stmt = $db->prepare($sql);
@@ -95,29 +93,28 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
-<div class="categories-grid">
+<div class="gallery-grid">
   <?php if ($result->num_rows > 0): ?>
     <?php while ($row = $result->fetch_assoc()): ?>
-      <div class="category-card">
-        <img src="<?= htmlspecialchars($row['thumbnail_url'] ?: 'assets/images/default.jpg') ?>"
-             alt="<?= htmlspecialchars($row['name']) ?>">
-        <div class="category-content">
-          <h3><?= htmlspecialchars($row['name']) ?></h3>
-          <p><?= htmlspecialchars(substr($row['description'], 0, 120)) ?>...</p>
-          <a href="javascript:void(0)" class="btn" onclick="openFestivalModal('<?= $row['slug'] ?>')">
-            Learn More
-          </a>
+      <div class="gallery-item" onclick="openFestivalModal('<?= htmlspecialchars($row['slug']) ?>')">
+        <img src="<?= htmlspecialchars($row['image_url']) ?>"
+             alt="<?= htmlspecialchars($row['caption'] ?: $row['festival_name']) ?>">
+        <div class="gallery-overlay">
+          <h4><?= htmlspecialchars($row['festival_name']) ?></h4>
+          <?php if ($row['caption']): ?>
+            <p><?= htmlspecialchars($row['caption']) ?></p>
+          <?php endif; ?>
         </div>
       </div>
     <?php endwhile; ?>
   <?php else: ?>
-    <p style="text-align:center;">No festivals found.</p>
+    <p style="text-align:center;">No images found.</p>
   <?php endif; ?>
 </div>
 
 <?php if (!empty($filters['religion']) || !empty($filters['month']) || !empty($filters['country'])): ?>
-  <div id="filterResultInfo" style="text-align:center; padding:1rem; color:#666;">
-    Hiển thị <?= $total ?> festival<?= $total > 1 ? 's' : '' ?> phù hợp với bộ lọc.  
+  <div id="filterResultInfoGallery" style="text-align:center; padding:1rem; color:#666;">
+    Hiển thị <?= $total ?> ảnh lễ hội phù hợp với bộ lọc.  
     <a href="javascript:void(0)" onclick="clearFilters()" style="color:#007bff; text-decoration:underline;">
       Xem tất cả
     </a>
@@ -126,21 +123,21 @@ $result = $stmt->get_result();
 
 <!-- Pagination -->
 <div class="pagination">
-  <?php $query = $_GET ?>
+  <?php $query = $_GET; ?>
   <?php if ($page > 1): ?>
     <?php $query['page'] = $page - 1; ?>
-    <a href="?<?= http_build_query($query) ?>#festivals" class="prev">« Prev</a>
+    <a href="?<?= http_build_query($query) ?>#gallery" class="prev">« Prev</a>
   <?php endif; ?>
 
   <?php for ($i = 1; $i <= $totalPages; $i++): ?>
     <?php $query['page'] = $i; ?>
-    <a href="?<?= http_build_query($query) ?>#festivals" class="<?= $i == $page ? 'active' : '' ?>">
+    <a href="?<?= http_build_query($query) ?>#gallery" class="<?= $i == $page ? 'active' : '' ?>">
       <?= $i ?>
     </a>
   <?php endfor; ?>
 
   <?php if ($page < $totalPages): ?>
-    <a href="?page=<?= $page + 1 ?>#festivals" class="next">Next »</a>
+    <?php $query['page'] = $page + 1; ?>
+    <a href="?<?= http_build_query($query) ?>#gallery" class="next">Next »</a>
   <?php endif; ?>
 </div>
-

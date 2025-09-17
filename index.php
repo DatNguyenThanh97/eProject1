@@ -175,11 +175,15 @@ $festivalClass = getFestivalClassFromDB();
         <div class="filter-controls">
           <select class="filter-select" id="religionFilter">
             <option value="">All Religions</option>
-            <option value="hindu">Hindu</option>
-            <option value="christian">Christian</option>
-            <option value="islamic">Islamic</option>
-            <option value="buddhist">Buddhist</option>
-            <option value="secular">Secular</option>
+            <?php require_once __DIR__ . '/db_connect.php';
+            $db = get_db();
+            $res = $db->query("SELECT name FROM religion ORDER BY name ASC");
+            while ($row = $res->fetch_assoc()):
+            ?>
+              <option value="<?= htmlspecialchars($row['name']) ?>">
+                <?= htmlspecialchars($row['name']) ?>
+              </option>
+            <?php endwhile; ?>
           </select>
 
           <select class="filter-select" id="monthFilter">
@@ -198,13 +202,20 @@ $festivalClass = getFestivalClassFromDB();
             <option value="december">December</option>
           </select>
 
-          <select class="filter-select" id="collectionFilter">
-            <option value="">All Collections</option>
-            <option value="cultural">Cultural</option>
-            <option value="religious">Religious</option>
-            <option value="seasonal">Seasonal</option>
-            <option value="historical">Historical</option>
+          <select class="filter-select" id="countryFilter">
+            <option value="">All Countries</option>
+            <?php  
+              require_once __DIR__ . '/db_connect.php';
+              $db = get_db();
+              $res = $db->query("SELECT name FROM country ORDER BY name ASC");
+              while ($row = $res->fetch_assoc()):
+            ?>
+              <option value="<?= htmlspecialchars($row['name']) ?>">
+                <?= htmlspecialchars($row['name']) ?>
+              </option>
+            <?php endwhile; ?>
           </select>
+
         </div>
       </div>
     </section>
@@ -213,72 +224,8 @@ $festivalClass = getFestivalClassFromDB();
     <section id="gallery" class="gallery" data-route="gallery">
       <div class="container">
         <h2 class="section-title">Festival Gallery</h2>
-        <div class="gallery-grid">
-          <div class="gallery-item" onclick="openFestivalModal('gallery1')">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/gallery1.jpg"
-              alt="Festival Image 1"
-            />
-            <div class="gallery-overlay">
-              <h4>Holi Festival - India</h4>
-              <p>Festival of Colors</p>
-            </div>
-          </div>
-
-          <div class="gallery-item" onclick="openFestivalModal('gallery2')">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/gallery2.jpg"
-              alt="Festival Image 2"
-            />
-            <div class="gallery-overlay">
-              <h4>Cherry Blossom - Japan</h4>
-              <p>Hanami Celebration</p>
-            </div>
-          </div>
-
-          <div class="gallery-item" onclick="openFestivalModal('gallery3')">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/gallery3.jpg"
-              alt="Festival Image 3"
-            />
-            <div class="gallery-overlay">
-              <h4>Carnival - Brazil</h4>
-              <p>Rio de Janeiro</p>
-            </div>
-          </div>
-
-          <div class="gallery-item" onclick="openFestivalModal('gallery4')">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/gallery4.jpg"
-              alt="Festival Image 4"
-            />
-            <div class="gallery-overlay">
-              <h4>Dia de los Muertos - Mexico</h4>
-              <p>Day of the Dead</p>
-            </div>
-          </div>
-
-          <div class="gallery-item" onclick="openFestivalModal('gallery5')">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/gallery5.jpg"
-              alt="Festival Image 5"
-            />
-            <div class="gallery-overlay">
-              <h4>Songkran - Thailand</h4>
-              <p>Water Festival</p>
-            </div>
-          </div>
-
-          <div class="gallery-item" onclick="openFestivalModal('gallery6')">
-            <img
-              src="./MOONLIGHT EVENTS - Global Festivals_files/gallery6.jpg"
-              alt="Festival Image 6"
-            />
-            <div class="gallery-overlay">
-              <h4>Carnevale - Italy</h4>
-              <p>Venice Carnival</p>
-            </div>
-          </div>
+        <div id="galleryGridContainer">
+          <?php include "./components/gallery-grid.php"; ?>
         </div>
       </div>
     </section>

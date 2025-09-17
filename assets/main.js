@@ -47,7 +47,7 @@ function openFestivalModal(slug) {
   const xhr = new XMLHttpRequest();
   xhr.open(
     "GET",
-    "components/festival-modal.php?slug=" + encodeURIComponent(slug),
+    "components/modal.php?slug=" + encodeURIComponent(slug),
     true
   );
   xhr.onload = function () {
@@ -176,10 +176,10 @@ document.querySelectorAll(".filter-select").forEach((select) => {
   select.addEventListener("change", function () {
     const religionFilter = document.getElementById("religionFilter").value;
     const monthFilter = document.getElementById("monthFilter").value;
-    const collectionFilter = document.getElementById("collectionFilter").value;
+    const countryFilter = document.getElementById("countryFilter").value;
 
     // Check if all filters are empty (user selected "All")
-    if (!religionFilter && !monthFilter && !collectionFilter) {
+    if (!religionFilter && !monthFilter && !countryFilter) {
       // Return to original paginated view
       clearFilters();
       return;
@@ -190,82 +190,92 @@ document.querySelectorAll(".filter-select").forEach((select) => {
   });
 });
 function applyFilters() {
-  const religionFilter = document.getElementById("religionFilter").value;
-  const monthFilter = document.getElementById("monthFilter").value;
-  const collectionFilter = document.getElementById("collectionFilter").value;
+  const religion = document.getElementById("religionFilter").value;
+  const month = document.getElementById("monthFilter").value;
+  const country = document.getElementById("countryFilter").value;
 
-  // Build query parameters for filter
   const params = new URLSearchParams();
-  if (religionFilter) params.set("religion", religionFilter);
-  if (monthFilter) params.set("month", monthFilter);
-  if (collectionFilter) params.set("collection", collectionFilter);
+  if (religion) params.set("religion", religion);
+  if (month) params.set("month", month);
+  if (country) params.set("country", country);
 
-  const gridContainer = document.getElementById("festivalsGridContainer");
-  if (!gridContainer) return;
+  // Festival grid
+  const festivalsGrid = document.getElementById("festivalsGridContainer");
+  if (festivalsGrid) {
+    festivalsGrid.innerHTML =
+      '<div style="text-align:center;padding:2rem;">Đang lọc...</div>';
+    params.set("type", "festival");
+    fetch("components/filter.php?" + params.toString())
+      .then((res) => res.text())
+      .then((html) => {
+        festivalsGrid.innerHTML = html;
+        document
+          .getElementById("festivals")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+  }
 
-  // Show loading
-  gridContainer.innerHTML =
-    '<div style="text-align:center;padding:2rem;">Đang lọc...</div>';
-
-  // AJAX call to filter endpoint
-  fetch(`components/filter-festivals.php?${params}`)
-    .then((response) => response.text())
-    .then((html) => {
-      gridContainer.innerHTML = html;
-
-      // Scroll lên đầu section festivals
-      // cuộn đến section Festivals mà không đổi URL
-      const target = document.getElementById("festivals");
-      if (target) {
-        setTimeout(() => {
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }, 50);
-      }
-    })
-    .catch((error) => {
-      console.error("Error filtering festivals:", error);
-      gridContainer.innerHTML =
-        '<div style="text-align:center;padding:2rem;color:red;">Lỗi khi lọc dữ liệu</div>';
-    });
+  // Gallery grid
+  const galleryGrid = document.getElementById("galleryGridContainer");
+  if (galleryGrid) {
+    galleryGrid.innerHTML =
+      '<div style="text-align:center;padding:2rem;">Đang lọc...</div>';
+    params.set("type", "gallery");
+    fetch("components/filter.php?" + params.toString())
+      .then((res) => res.text())
+      .then((html) => {
+        galleryGrid.innerHTML = html;
+      });
+  }
 }
 
 function clearFilters() {
   // Reset all filters
   document.getElementById("religionFilter").value = "";
   document.getElementById("monthFilter").value = "";
-  document.getElementById("collectionFilter").value = "";
+  document.getElementById("countryFilter").value = "";
 
-  const gridContainer = document.getElementById("festivalsGridContainer");
-  if (!gridContainer) return;
+  // Festival grid
+  const festivalsGrid = document.getElementById("festivalsGridContainer");
+  if (festivalsGrid) {
+    festivalsGrid.innerHTML =
+      '<div style="text-align:center;padding:2rem;">Đang tải...</div>';
 
-  // Show loading
-  gridContainer.innerHTML =
-    '<div style="text-align:center;padding:2rem;">Đang tải...</div>';
+    fetch("components/filter.php?type=festival")
+      .then((response) => response.text())
+      .then((html) => {
+        festivalsGrid.innerHTML = html;
 
-  // Load original paginated content
-  fetch("components/festival-grid.php")
-    .then((response) => response.text())
-    .then((html) => {
-      gridContainer.innerHTML = html;
+        // Scroll lên đầu section festivals
+        const target = document.getElementById("festivals");
+        if (target) {
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 50);
+        }
+      })
+      .catch((error) => {
+        console.error("Error loading festivals:", error);
+        festivalsGrid.innerHTML =
+          '<div style="text-align:center;padding:2rem;color:red;">Lỗi khi tải dữ liệu</div>';
+      });
+  }
 
-      // Scroll lên đầu section festivals
-      // cuộn đến section Festivals mà không đổi URL
-      const target = document.getElementById("festivals");
-      if (target) {
-        setTimeout(() => {
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }, 50);
-      }
-    })
-    .catch((error) => {
-      console.error("Error loading festivals:", error);
-      gridContainer.innerHTML =
-        '<div style="text-align:center;padding:2rem;color:red;">Lỗi khi tải dữ liệu</div>';
-    });
+  // Gallery grid
+  const galleryGrid = document.getElementById("galleryGridContainer");
+  if (galleryGrid) {
+    galleryGrid.innerHTML =
+      '<div style="text-align:center;padding:2rem;">Đang tải...</div>';
+
+    fetch("components/filter.php?type=gallery")
+      .then((response) => response.text())
+      .then((html) => {
+        galleryGrid.innerHTML = html;
+      })
+      .catch((error) => {
+        console.error("Error loading gallery:", error);
+        galleryGrid.innerHTML =
+          '<div style="text-align:center;padding:2rem;color:red;">Lỗi khi tải dữ liệu</div>';
+      });
+  }
 }
