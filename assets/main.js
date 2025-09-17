@@ -166,7 +166,7 @@ window.addEventListener("scroll", function () {
     header.style.backdropFilter = "blur(10px)";
   } else {
     header.style.background =
-      "linear-gradient(135deg, var(--primary-color), var(--accent-color))";
+      "linear-gradient(135deg, var(--primary-color), black, #462c68, #701762, #462c68, #06346f, black)";
     header.style.backdropFilter = "none";
   }
 });
