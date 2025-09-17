@@ -171,6 +171,311 @@ window.addEventListener("scroll", function () {
   }
 });
 
+// Authentication System
+let currentUser = null;
+
+// Check authentication status on page load
+document.addEventListener('DOMContentLoaded', function() {
+  checkAuthStatus();
+});
+
+// Check if user is logged in
+async function checkAuthStatus() {
+  try {
+    const response = await fetch('auth/check_auth.php');
+    const data = await response.json();
+    
+    if (data.success && data.logged_in) {
+      currentUser = data.user;
+      showUserMenu();
+    } else {
+      showAuthButtons();
+    }
+  } catch (error) {
+    console.error('Error checking auth status:', error);
+    showAuthButtons();
+  }
+}
+
+// Show authentication buttons
+function showAuthButtons() {
+  document.getElementById('authButtons').style.display = 'block';
+  document.getElementById('userMenu').style.display = 'none';
+}
+
+// Show user menu
+function showUserMenu() {
+  document.getElementById('authButtons').style.display = 'none';
+  document.getElementById('userMenu').style.display = 'block';
+  document.getElementById('userDisplayName').textContent = currentUser.full_name || currentUser.username;
+}
+
+// Open authentication popup
+function openAuthPopup(type) {
+  const popup = document.getElementById('authPopup');
+  const signinForm = document.getElementById('signinForm');
+  const signupForm = document.getElementById('signupForm');
+  
+  // Clear previous errors
+  clearAuthErrors();
+  
+  if (type === 'signin') {
+    signinForm.style.display = 'block';
+    signupForm.style.display = 'none';
+  } else {
+    signinForm.style.display = 'none';
+    signupForm.style.display = 'block';
+  }
+  
+  popup.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+// Close authentication popup
+function closeAuthPopup() {
+  const popup = document.getElementById('authPopup');
+  popup.classList.remove('show');
+  document.body.style.overflow = 'auto';
+  clearAuthErrors();
+  clearAuthForms();
+}
+
+// Switch between signin and signup forms
+function switchToSignup() {
+  document.getElementById('signinForm').style.display = 'none';
+  document.getElementById('signupForm').style.display = 'block';
+  clearAuthErrors();
+}
+
+function switchToSignin() {
+  document.getElementById('signinForm').style.display = 'block';
+  document.getElementById('signupForm').style.display = 'none';
+  clearAuthErrors();
+}
+
+// Clear authentication errors
+function clearAuthErrors() {
+  document.querySelectorAll('.auth-error').forEach(error => {
+    error.classList.remove('show');
+    error.textContent = '';
+  });
+  document.querySelectorAll('.auth-form-group input').forEach(input => {
+    input.classList.remove('error');
+  });
+}
+
+// Clear authentication forms
+function clearAuthForms() {
+  document.getElementById('signinFormData').reset();
+  document.getElementById('signupFormData').reset();
+}
+
+// Show authentication error
+function showAuthError(fieldId, message) {
+  const errorElement = document.getElementById(fieldId + 'Error');
+  const inputElement = document.getElementById(fieldId);
+  
+  if (errorElement && inputElement) {
+    errorElement.textContent = message;
+    errorElement.classList.add('show');
+    inputElement.classList.add('error');
+  }
+}
+
+// Show loading state
+function showAuthLoading(formType) {
+  document.getElementById(formType + 'Loading').style.display = 'block';
+  document.querySelector(`#${formType}Form .auth-btn`).disabled = true;
+}
+
+// Hide loading state
+function hideAuthLoading(formType) {
+  document.getElementById(formType + 'Loading').style.display = 'none';
+  document.querySelector(`#${formType}Form .auth-btn`).disabled = false;
+}
+
+// Submit sign in
+async function submitSignIn() {
+  const username = document.getElementById('signinUsername').value.trim();
+  const password = document.getElementById('signinPassword').value;
+  
+  if (!username || !password) {
+    showAuthError('signinUsername', 'Please fill in all fields');
+    return;
+  }
+  
+  clearAuthErrors();
+  showAuthLoading('signin');
+  
+  try {
+    const response = await fetch('auth/signin.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      currentUser = data.user;
+      closeAuthPopup();
+      showUserMenu();
+      showNotification('Welcome back, ' + currentUser.full_name + '!', 'success');
+    } else {
+      showAuthError('signinUsername', data.message);
+    }
+  } catch (error) {
+    console.error('Sign in error:', error);
+    showAuthError('signinUsername', 'An error occurred. Please try again.');
+  } finally {
+    hideAuthLoading('signin');
+  }
+}
+
+// Submit sign up
+async function submitSignUp() {
+  const fullName = document.getElementById('signupFullName').value.trim();
+  const username = document.getElementById('signupUsername').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  
+  if (!fullName || !username || !email || !password) {
+    showAuthError('signupFullName', 'Please fill in all fields');
+    return;
+  }
+  
+  clearAuthErrors();
+  showAuthLoading('signup');
+  
+  try {
+    const response = await fetch('auth/signup.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ full_name: fullName, username, email, password })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      showNotification(data.message, 'success');
+      switchToSignin();
+    } else {
+      // Parse error message to show specific field errors
+      if (data.message.includes('Username already exists')) {
+        showAuthError('signupUsername', data.message);
+      } else if (data.message.includes('Email already exists')) {
+        showAuthError('signupEmail', data.message);
+      } else {
+        showAuthError('signupFullName', data.message);
+      }
+    }
+  } catch (error) {
+    console.error('Sign up error:', error);
+    showAuthError('signupFullName', 'An error occurred. Please try again.');
+  } finally {
+    hideAuthLoading('signup');
+  }
+}
+
+// Sign out
+async function signOut() {
+  try {
+    const response = await fetch('auth/signout.php');
+    const data = await response.json();
+    
+    if (data.success) {
+      currentUser = null;
+      showAuthButtons();
+      showNotification('You have been signed out successfully.', 'info');
+    }
+  } catch (error) {
+    console.error('Sign out error:', error);
+  }
+}
+
+// Toggle user menu dropdown
+function toggleUserMenu() {
+  const dropdown = document.getElementById('userDropdown');
+  dropdown.classList.toggle('show');
+}
+
+// Close user menu when clicking outside
+document.addEventListener('click', function(event) {
+  const userMenu = document.getElementById('userMenu');
+  const dropdown = document.getElementById('userDropdown');
+  
+  if (userMenu && !userMenu.contains(event.target)) {
+    dropdown.classList.remove('show');
+  }
+});
+
+// User menu functions
+function showUserProfile() {
+  showNotification('User profile feature coming soon!', 'info');
+  document.getElementById('userDropdown').classList.remove('show');
+}
+
+function showUserSettings() {
+  showNotification('User settings feature coming soon!', 'info');
+  document.getElementById('userDropdown').classList.remove('show');
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.textContent = message;
+  
+  // Style the notification
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1001;
+    animation: slideInRight 0.3s ease-out;
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideOutRight 0.3s ease-in';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
+
+// Close popup when clicking outside
+window.addEventListener('click', function(event) {
+  const authPopup = document.getElementById('authPopup');
+  if (event.target === authPopup) {
+    closeAuthPopup();
+  }
+});
+
+// Close popup with Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const authPopup = document.getElementById('authPopup');
+    if (authPopup.classList.contains('show')) {
+      closeAuthPopup();
+    }
+  }
+});
+
 // Filter functionality
 document.querySelectorAll(".filter-select").forEach((select) => {
   select.addEventListener("change", function () {

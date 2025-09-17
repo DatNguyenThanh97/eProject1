@@ -139,6 +139,35 @@ $festivalClass = getFestivalClassFromDB();
             >
             visitors
           </div>
+
+          <!-- Authentication Section -->
+          <div id="authSection">
+            <!-- Sign In/Sign Up Buttons (shown when not logged in) -->
+            <div id="authButtons" class="auth-buttons">
+              <button class="btn auth-btn" onclick="openAuthPopup('signin')">Sign In</button>
+              <button class="btn auth-btn" onclick="openAuthPopup('signup')">Sign Up</button>
+            </div>
+
+            <!-- User Menu (shown when logged in) -->
+            <div id="userMenu" class="user-menu" style="display: none;">
+              <button class="user-menu-btn" onclick="toggleUserMenu()">
+                <i class="fas fa-user"></i>
+                <span id="userDisplayName">User</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div id="userDropdown" class="user-menu-dropdown">
+                <a href="#" class="user-menu-item" onclick="showUserProfile()">
+                  <i class="fas fa-user-circle"></i> Profile
+                </a>
+                <a href="#" class="user-menu-item" onclick="showUserSettings()">
+                  <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="#" class="user-menu-item signout" onclick="signOut()">
+                  <i class="fas fa-sign-out-alt"></i> Sign Out
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -444,6 +473,85 @@ $festivalClass = getFestivalClassFromDB();
         <span class="close" onclick="closeFestivalModal()">&times;</span>
         <div id="modalContent">
           <!-- Modal content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Authentication Popup -->
+    <div id="authPopup" class="auth-popup">
+      <div class="auth-popup-content">
+        <button class="auth-close" onclick="closeAuthPopup()">&times;</button>
+        
+        <!-- Sign In Form -->
+        <div id="signinForm" class="auth-form">
+          <div class="auth-popup-header">
+            <h2>Sign In</h2>
+          </div>
+          <div class="auth-popup-body">
+            <form id="signinFormData">
+              <div class="auth-form-group">
+                <label for="signinUsername">Username or Email</label>
+                <input type="text" id="signinUsername" name="username" required>
+                <div class="auth-error" id="signinUsernameError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signinPassword">Password</label>
+                <input type="password" id="signinPassword" name="password" required>
+                <div class="auth-error" id="signinPasswordError"></div>
+              </div>
+              <div class="auth-loading" id="signinLoading">
+                <div class="auth-spinner"></div>
+                <p>Signing in...</p>
+              </div>
+            </form>
+          </div>
+          <div class="auth-popup-footer">
+            <button type="button" class="auth-btn" onclick="submitSignIn()">Sign In</button>
+            <div class="auth-switch">
+              Don't have an account? <a href="#" onclick="switchToSignup()">Sign Up</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupForm" class="auth-form" style="display: none;">
+          <div class="auth-popup-header">
+            <h2>Sign Up</h2>
+          </div>
+          <div class="auth-popup-body">
+            <form id="signupFormData">
+              <div class="auth-form-group">
+                <label for="signupFullName">Full Name</label>
+                <input type="text" id="signupFullName" name="full_name" required>
+                <div class="auth-error" id="signupFullNameError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signupUsername">Username</label>
+                <input type="text" id="signupUsername" name="username" required>
+                <div class="auth-error" id="signupUsernameError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" name="email" required>
+                <div class="auth-error" id="signupEmailError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" name="password" required>
+                <div class="auth-error" id="signupPasswordError"></div>
+              </div>
+              <div class="auth-loading" id="signupLoading">
+                <div class="auth-spinner"></div>
+                <p>Creating account...</p>
+              </div>
+            </form>
+          </div>
+          <div class="auth-popup-footer">
+            <button type="button" class="auth-btn" onclick="submitSignUp()">Sign Up</button>
+            <div class="auth-switch">
+              Already have an account? <a href="#" onclick="switchToSignin()">Sign In</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
