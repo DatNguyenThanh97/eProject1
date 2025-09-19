@@ -195,8 +195,8 @@ $festivalClass = getFestivalClassFromDB();
     </div>
   </section>
 
-    <!-- Filters Section -->
-    <section class="filters" data-route="festivals" data-route="gallery">
+    <!-- Filters festivals Section -->
+    <section class="filters" data-route="festivals">
       <div class="container">
         <h3 style="text-align: center; margin-bottom: 2rem">
           Filter Festivals
@@ -255,6 +255,60 @@ $festivalClass = getFestivalClassFromDB();
         <h2 class="section-title">Festival Gallery</h2>
         <div id="galleryGridContainer">
           <?php include "./components/gallery-grid.php"; ?>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters gallery Section -->
+    <section class="filters" data-route="gallery">
+      <div class="container">
+        <h3 style="text-align: center; margin-bottom: 2rem">
+          Filter Gallery
+        </h3>
+        <div class="filter-controls">
+          <select class="filter-select" id="religionFilter">
+            <option value="">All Religions</option>
+            <?php require_once __DIR__ . '/db_connect.php';
+            $db = get_db();
+            $res = $db->query("SELECT name FROM religion ORDER BY name ASC");
+            while ($row = $res->fetch_assoc()):
+            ?>
+              <option value="<?= htmlspecialchars($row['name']) ?>">
+                <?= htmlspecialchars($row['name']) ?>
+              </option>
+            <?php endwhile; ?>
+          </select>
+
+          <select class="filter-select" id="monthFilter">
+            <option value="">All Months</option>
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <option value="october">October</option>
+            <option value="november">November</option>
+            <option value="december">December</option>
+          </select>
+
+          <select class="filter-select" id="countryFilter">
+            <option value="">All Countries</option>
+            <?php  
+              require_once __DIR__ . '/db_connect.php';
+              $db = get_db();
+              $res = $db->query("SELECT name FROM country ORDER BY name ASC");
+              while ($row = $res->fetch_assoc()):
+            ?>
+              <option value="<?= htmlspecialchars($row['name']) ?>">
+                <?= htmlspecialchars($row['name']) ?>
+              </option>
+            <?php endwhile; ?>
+          </select>
+
         </div>
       </div>
     </section>

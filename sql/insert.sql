@@ -38,7 +38,7 @@ VALUES (
     '2025-12-25',
     '2025-12-25',
     @christianity_id,
-    'assets/images/christmas.jpg'
+    'assets/images/thumbnail/christmas.jpg'
 );
 
 -- Halloween
@@ -51,7 +51,7 @@ VALUES (
     '2025-10-31',
     '2025-10-31',
     @christianity_id,
-    'assets/images/halloween.jpg'
+    'assets/images/thumbnail/halloween.jpg'
 );
 
 -- National Day of Vietnam
@@ -64,7 +64,7 @@ VALUES (
     '2025-09-02',
     '2025-09-02',
     NULL,
-    'assets/images/vietnam-national-day.jpg'
+    'assets/images/thumbnail/vietnam-national-day.jpg'
 );
 
 -- Mid-Autumn-Festival
@@ -77,7 +77,7 @@ VALUES (
     '2025-09-29',
     '2025-09-29',
     NULL,
-    'assets/images/mid-autumn-festival.jpg'
+    'assets/images/thumbnail/mid-autumn-festival.jpg'
 );
 
 -- Holi
@@ -90,7 +90,7 @@ VALUES (
     '2025-03-17', -- Ngày Holi 2025 (tính theo dương lịch)
     '2025-03-17',
     @hinduism_id,
-    'assets/images/holi.jpg'
+    'assets/images/thumbnail/holi.jpg'
 );
 
 -- Lunar New Year
@@ -103,7 +103,7 @@ VALUES (
     '2025-01-29', -- Ngày mùng 1 Tết 2025 dương lịch
     '2025-01-29',
     NULL,
-    'assets/images/lunar-new-year.jpg'
+    'assets/images/thumbnail/lunar-new-year.jpg'
 );
 
 -- Vesak
@@ -116,7 +116,7 @@ VALUES (
     '2025-05-12', -- Vesak 2025 dương lịch
     '2025-05-12',
     @buddhism_id,
-    'assets/images/vesak.jpg'
+    'assets/images/thumbnail/vesak.jpg'
 );
 -- -------------------------
 -- 3. Add Countries
@@ -200,13 +200,35 @@ SET @south_korea_id = (SELECT country_id FROM country WHERE name = 'South Korea'
 SET @srilanka_id = (SELECT country_id FROM country WHERE name = 'Sri Lanka');
 SET @thailand_id = (SELECT country_id FROM country WHERE name = 'Thailand');
 
+-- -------------------------
+-- 5. Add Gallery:
+-- -------------------------
+-- this can be faster with php but well...
+INSERT INTO gallery (festival_id, country_id, image_url, caption)
+VALUES
+(@halloween_id, null, 'assets/images/gallery/halloween/halloween1.jpg', 'Halloween means dressing up and celebrating!'),
+(@halloween_id, @us_id, 'assets/images/gallery/halloween/halloween2.jpg', 'Trick or Treat - a popular tradition celebrated during Halloween'),
+(@halloween_id, @us_id, 'assets/images/gallery/halloween/halloween3.jpg', 'Pumkin carving'),
+(@halloween_id, @uk_id, 'assets/images/gallery/halloween/halloween4.jpg', 'Radish carving'),
+(@halloween_id, null, 'assets/images/gallery/halloween/halloween5.jpg', 'Jack-o-lanterns, Will-o-wisps, and witches is the icons of Halloween night'),
+(@halloween_id, @uk_id, 'assets/images/gallery/halloween/halloween-Samhain.jpg', 'Samhain, the origin of Halloween, celebrated the veil between worlds'),
+(@christmas_id, null, 'assets/images/gallery/christmas/christmas0.jpg', 'christmas: a joyful occasion for children to receive presents'),
+(@christmas_id, @uk_id, 'assets/images/gallery/christmas/christmas6.jpg', 'christmas stockings filled with treats and surprises'),
+(@christmas_id, @germany_id, 'assets/images/gallery/christmas/christmas1.jpg', 'Advent Wreath is the evergreen circle symbolizing eternal life and Christmas anticipation'),
+(@christmas_id, @germany_id, 'assets/images/gallery/christmas/christmas2.jpg', 'Yule Log, from ancient Solstice fires to modern Christmas dessert'),
+(@christmas_id, null, 'assets/images/gallery/christmas/christmas3.jpg', 'Decorated evergreen bringing light and festivity into the winter night'),
+(@christmas_id, null, 'assets/images/gallery/christmas/christmas4.jpg', 'Rung to celebrate joy and to chase away the darkness of winter'),
+(@christmas_id, @uk_id, 'assets/images/gallery/christmas/christmas5.jpg', 'Gingerbread, a festive treat long tied to winter and Christmas traditions'),
+(@christmas_id, null, 'assets/images/gallery/christmas/christmas7.jpg', 'A taste of Santa Claus riding his sleigh to deliver gifts on Christmas Eve');
+
 -- Christmas
 INSERT INTO festival_country (festival_id, country_id)
 VALUES 
 (@christmas_id, @us_id),
 (@christmas_id, @uk_id),
 (@christmas_id, @germany_id),
-(@christmas_id, @philippines_id);
+(@christmas_id, @philippines_id),
+(@christmas_id, @canada_id);
 
 -- Halloween
 INSERT INTO festival_country (festival_id, country_id)

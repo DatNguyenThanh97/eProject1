@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS festival_country (
     country_id INT,
     PRIMARY KEY (festival_id, country_id),
     FOREIGN KEY (festival_id) REFERENCES festival(festival_id) ON DELETE CASCADE,
-    FOREIGN KEY (country_id) REFERENCES country(country_id) ON DELETE CASCADE
+    FOREIGN KEY (country_id) REFERENCES country(country_id) ON DELETE SET NULL
 );
 
 -- Indexes cho bảng nối
@@ -57,12 +57,15 @@ ALTER TABLE festival_country ADD INDEX idx_fc_country (country_id);
 CREATE TABLE IF NOT EXISTS gallery (
     gallery_id INT PRIMARY KEY AUTO_INCREMENT,
     festival_id INT,
+    country_id INT null,
     FOREIGN KEY (festival_id) REFERENCES festival(festival_id) ON DELETE CASCADE,
+    FOREIGN KEY (country_id) REFERENCES country(country_id) ON DELETE CASCADE,
     image_url VARCHAR(255) NOT NULL,
     caption VARCHAR(255)
 );
 
 ALTER TABLE gallery ADD INDEX idx_gallery_festival (festival_id);
+ALTER TABLE gallery ADD INDEX idx_gallery_country (country_id);
 
 -- Phản hồi người dùng
 CREATE TABLE IF NOT EXISTS feedback (
@@ -88,20 +91,18 @@ INSERT INTO visitor_count (id, total_visits)
 SELECT 1, 0
 WHERE NOT EXISTS (SELECT 1 FROM visitor_count WHERE id = 1);
 
--- Bộ sưu tập (Collections) để filter: Cultural/Religious/Seasonal/Historical...
-CREATE TABLE IF NOT EXISTS collection (
-    collection_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description TEXT
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE IF NOT EXISTS festival_collection (
-    festival_id INT NOT NULL,
-    collection_id INT NOT NULL,
-    PRIMARY KEY (festival_id, collection_id),
-    FOREIGN KEY (festival_id) REFERENCES festival(festival_id) ON DELETE CASCADE,
-    FOREIGN KEY (collection_id) REFERENCES collection(collection_id) ON DELETE CASCADE
-);
-
-ALTER TABLE festival_collection ADD INDEX idx_fc2_festival (festival_id);
-ALTER TABLE festival_collection ADD INDEX idx_fc2_collection (collection_id);
+-- Tạo index để tối ưu hóa truy vấn
+CREATE INDEX idx_users_username ON users(username);
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_active ON users(is_active);

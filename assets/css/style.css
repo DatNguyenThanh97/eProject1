@@ -72,7 +72,11 @@ textarea:focus {
 }
 
 .auth-popup-content {
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--accent-color)
+  );
   border-radius: 15px;
   padding: 0;
   width: 90%;
@@ -165,7 +169,11 @@ textarea:focus {
 .auth-btn {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--accent-color)
+  );
   color: white;
   border: none;
   border-radius: 8px;
@@ -323,8 +331,12 @@ textarea:focus {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Notification Animations */
