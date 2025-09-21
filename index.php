@@ -141,15 +141,15 @@ $festivalClass = getFestivalClassFromDB();
           </div>
 
           <!-- Authentication Section -->
-          <div id="authSection">
+          <!-- <div id="authSection"> -->
             <!-- Sign In/Sign Up Buttons (shown when not logged in) -->
-            <div id="authButtons" class="auth-buttons">
+            <!-- <div id="authButtons" class="auth-buttons">
               <button class="btn auth-btn" onclick="openAuthPopup('signin')">Sign In</button>
               <button class="btn auth-btn" onclick="openAuthPopup('signup')">Sign Up</button>
-            </div>
+            </div> -->
 
             <!-- User Menu (shown when logged in) -->
-            <div id="userMenu" class="user-menu" style="display: none;">
+            <!-- <div id="userMenu" class="user-menu" style="display: none;">
               <button class="user-menu-btn" onclick="toggleUserMenu()">
                 <i class="fas fa-user"></i>
                 <span id="userDisplayName">User</span>
@@ -166,7 +166,7 @@ $festivalClass = getFestivalClassFromDB();
                   <i class="fas fa-sign-out-alt"></i> Sign Out
                 </a>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -174,7 +174,7 @@ $festivalClass = getFestivalClassFromDB();
 
     <!-- Hero Section -->
     <section id="home" class="hero" data-route="home <?php echo htmlspecialchars($hero["slug"]); ?>"
-    style="background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.75)), url('<?php echo htmlspecialchars($hero["bg"]); ?>');">
+    style="background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1)), url('<?php echo htmlspecialchars($hero["bg"]); ?>');">
       <div class="container">
         <div class="hero-content">
           <h1><?php echo htmlspecialchars($hero["title"]); ?></h1>
@@ -184,70 +184,26 @@ $festivalClass = getFestivalClassFromDB();
       </div>
     </section>
 
-     <!-- Festival Categories -->
-  <section id="festivals" class="festival-categories" data-route="festivals">
-    <div class="container">
-      <h2 class="section-title">All Festivals</h2>
-      <div id="festivalsGridContainer">
-        <?php include "./components/festival-grid.php"; ?>
-      </div>
-      <div id="filterInfo"></div>
-    </div>
-  </section>
-
-    <!-- Filters festivals Section -->
-    <section class="filters" data-route="festivals">
+    <!-- Festival Categories -->
+    <section id="festivals" class="festival-categories" data-route="festivals">
       <div class="container">
-        <h3 style="text-align: center; margin-bottom: 2rem">
-          Filter Festivals
-        </h3>
-        <div class="filter-controls">
-          <select class="filter-select" id="religionFilter">
-            <option value="">All Religions</option>
-            <?php require_once __DIR__ . '/db_connect.php';
-            $db = get_db();
-            $res = $db->query("SELECT name FROM religion ORDER BY name ASC");
-            while ($row = $res->fetch_assoc()):
-            ?>
-              <option value="<?= htmlspecialchars($row['name']) ?>">
-                <?= htmlspecialchars($row['name']) ?>
-              </option>
-            <?php endwhile; ?>
-          </select>
-
-          <select class="filter-select" id="monthFilter">
-            <option value="">All Months</option>
-            <option value="january">January</option>
-            <option value="february">February</option>
-            <option value="march">March</option>
-            <option value="april">April</option>
-            <option value="may">May</option>
-            <option value="june">June</option>
-            <option value="july">July</option>
-            <option value="august">August</option>
-            <option value="september">September</option>
-            <option value="october">October</option>
-            <option value="november">November</option>
-            <option value="december">December</option>
-          </select>
-
-          <select class="filter-select" id="countryFilter">
-            <option value="">All Countries</option>
-            <?php  
-              require_once __DIR__ . '/db_connect.php';
-              $db = get_db();
-              $res = $db->query("SELECT name FROM country ORDER BY name ASC");
-              while ($row = $res->fetch_assoc()):
-            ?>
-              <option value="<?= htmlspecialchars($row['name']) ?>">
-                <?= htmlspecialchars($row['name']) ?>
-              </option>
-            <?php endwhile; ?>
-          </select>
-
+        <h2 class="section-title">All Festivals</h2>
+        <div id="festivalsGridContainer">
+          <?php include "./components/festival-grid.php"; ?>
         </div>
+        <div id="filterInfo"></div>
       </div>
     </section>
+    
+    <!-- Festival Modal -->
+    <div id="festivalModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeFestivalModal()">&times;</span>
+        <div id="modalContent">
+          <!-- Modal content will be loaded here -->
+        </div>
+      </div>
+    </div>
 
     <!-- Gallery Section -->
     <section id="gallery" class="gallery" data-route="gallery">
@@ -259,16 +215,27 @@ $festivalClass = getFestivalClassFromDB();
       </div>
     </section>
 
-    <!-- Filters gallery Section -->
-    <section class="filters" data-route="gallery">
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeGalleryModal()">&times;</span>
+        <div id="galleryModalContent">
+          <!-- Gallery modal content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters for both festivals and gallery -->
+    <section class="filters" data-route="festivals gallery">
       <div class="container">
         <h3 style="text-align: center; margin-bottom: 2rem">
-          Filter Gallery
+          Filter Festivals & Gallery
         </h3>
         <div class="filter-controls">
           <select class="filter-select" id="religionFilter">
             <option value="">All Religions</option>
-            <?php require_once __DIR__ . '/db_connect.php';
+            <?php 
+            require_once __DIR__ . '/db_connect.php';
             $db = get_db();
             $res = $db->query("SELECT name FROM religion ORDER BY name ASC");
             while ($row = $res->fetch_assoc()):
@@ -281,25 +248,23 @@ $festivalClass = getFestivalClassFromDB();
 
           <select class="filter-select" id="monthFilter">
             <option value="">All Months</option>
-            <option value="january">January</option>
-            <option value="february">February</option>
-            <option value="march">March</option>
-            <option value="april">April</option>
-            <option value="may">May</option>
-            <option value="june">June</option>
-            <option value="july">July</option>
-            <option value="august">August</option>
-            <option value="september">September</option>
-            <option value="october">October</option>
-            <option value="november">November</option>
-            <option value="december">December</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
           </select>
 
           <select class="filter-select" id="countryFilter">
             <option value="">All Countries</option>
             <?php  
-              require_once __DIR__ . '/db_connect.php';
-              $db = get_db();
               $res = $db->query("SELECT name FROM country ORDER BY name ASC");
               while ($row = $res->fetch_assoc()):
             ?>
@@ -308,7 +273,6 @@ $festivalClass = getFestivalClassFromDB();
               </option>
             <?php endwhile; ?>
           </select>
-
         </div>
       </div>
     </section>
@@ -386,7 +350,21 @@ $festivalClass = getFestivalClassFromDB();
             <h3 style="color: var(--primary-color); margin-bottom: 1rem">
               Send Feedback
             </h3>
-            <form id="feedbackForm" style="text-align: left">
+            <!-- Authentication Required Message (shown when not logged in) -->
+            <div id="authRequiredMessage" class="auth-required-message">
+              <h4><i class="fas fa-lock"></i> Login Required</h4>
+              <p>Please sign in to send feedback and connect with our community.</p>
+              <div class="auth-buttons-inline">
+                <button class="btn" onclick="openAuthPopup('signin')">Sign In</button>
+                <button class="btn" onclick="openAuthPopup('signup')">Sign Up</button>
+              </div>
+            </div>
+
+            <!-- User Info Display (shown when logged in) -->
+            <div id="userInfoDisplay" class="user-info-display" style="display: none;">
+              <p><i class="fas fa-user"></i> Signed in as: <span class="user-name" id="currentUserName">User</span></p>
+            </div>
+            <form id="feedbackForm" style="text-align: left; display: none;">
               <div style="margin-bottom: 1rem">
                 <label
                   for="name"
@@ -453,6 +431,87 @@ $festivalClass = getFestivalClassFromDB();
         </div>
       </div>
     </section>
+
+    <!-- Authentication Popup -->
+    <div id="authPopup" class="auth-popup">
+      <div class="auth-popup-content">
+        <!-- <button class="auth-close" onclick="closeAuthPopup()">&times;</button> -->
+        
+        <!-- Sign In Form -->
+        <div id="signinForm" class="auth-form">
+          <div class="auth-popup-header">
+            <h2>Sign In</h2>
+            <button class="auth-close" onclick="closeAuthPopup()">&times;</button>
+          </div>
+          <div class="auth-popup-body">
+            <form id="signinFormData">
+              <div class="auth-form-group">
+                <label for="signinUsername">Username or Email</label>
+                <input type="text" id="signinUsername" name="username" required>
+                <div class="auth-error" id="signinUsernameError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signinPassword">Password</label>
+                <input type="password" id="signinPassword" name="password" required>
+                <div class="auth-error" id="signinPasswordError"></div>
+              </div>
+              <div class="auth-loading" id="signinLoading">
+                <div class="auth-spinner"></div>
+                <p>Signing in...</p>
+              </div>
+            </form>
+          </div>
+          <div class="auth-popup-footer">
+            <button type="button" class="auth-btn" onclick="submitSignIn()"><span>Sign In</span></button>
+            <div class="auth-switch">
+              Don't have an account? <a href="#" onclick="switchToSignup()">Sign Up</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupForm" class="auth-form" style="display: none;">
+          <div class="auth-popup-header">
+            <h2>Sign Up</h2>
+            <button class="auth-close" onclick="closeAuthPopup()">&times;</button>
+          </div>
+          <div class="auth-popup-body">
+            <form id="signupFormData">
+              <div class="auth-form-group">
+                <label for="signupFullName">Full Name</label>
+                <input type="text" id="signupFullName" name="full_name" required>
+                <div class="auth-error" id="signupFullNameError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signupUsername">Username</label>
+                <input type="text" id="signupUsername" name="username" required>
+                <div class="auth-error" id="signupUsernameError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" name="email" required>
+                <div class="auth-error" id="signupEmailError"></div>
+              </div>
+              <div class="auth-form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" name="password" required>
+                <div class="auth-error" id="signupPasswordError"></div>
+              </div>
+              <div class="auth-loading" id="signupLoading">
+                <div class="auth-spinner"></div>
+                <p>Creating account...</p>
+              </div>
+            </form>
+          </div>
+          <div class="auth-popup-footer">
+            <button type="button" class="auth-btn" onclick="submitSignUp()"><span>Sign Up</span></button>
+            <div class="auth-switch">
+              Already have an account? <a href="#" onclick="switchToSignin()">Sign In</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -521,94 +580,27 @@ $festivalClass = getFestivalClassFromDB();
       </div>
     </div>
 
-    <!-- Festival Modal -->
-    <div id="festivalModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeFestivalModal()">&times;</span>
-        <div id="modalContent">
-          <!-- Modal content will be loaded here -->
+    <div id="faqModal" class="faq-modal">
+      <div class="faq-modal-content">
+        <span span class="faq-close" onclick="closeFAQModal()">&times;</span>
+        <h2>FAQ</h2>
+
+        <div class="faq-item">
+          <button class="faq-question">Làm sao để đăng ký?</button>
+          <div class="faq-answer">
+            <p>Bạn nhấn nút Sign Up ở góc trên.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Có miễn phí không?</button>
+          <div class="faq-answer">
+            <p>Dịch vụ cơ bản thì miễn phí, gói nâng cao thì tính phí.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Authentication Popup -->
-    <div id="authPopup" class="auth-popup">
-      <div class="auth-popup-content">
-        <button class="auth-close" onclick="closeAuthPopup()">&times;</button>
-        
-        <!-- Sign In Form -->
-        <div id="signinForm" class="auth-form">
-          <div class="auth-popup-header">
-            <h2>Sign In</h2>
-          </div>
-          <div class="auth-popup-body">
-            <form id="signinFormData">
-              <div class="auth-form-group">
-                <label for="signinUsername">Username or Email</label>
-                <input type="text" id="signinUsername" name="username" required>
-                <div class="auth-error" id="signinUsernameError"></div>
-              </div>
-              <div class="auth-form-group">
-                <label for="signinPassword">Password</label>
-                <input type="password" id="signinPassword" name="password" required>
-                <div class="auth-error" id="signinPasswordError"></div>
-              </div>
-              <div class="auth-loading" id="signinLoading">
-                <div class="auth-spinner"></div>
-                <p>Signing in...</p>
-              </div>
-            </form>
-          </div>
-          <div class="auth-popup-footer">
-            <button type="button" class="auth-btn" onclick="submitSignIn()">Sign In</button>
-            <div class="auth-switch">
-              Don't have an account? <a href="#" onclick="switchToSignup()">Sign Up</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sign Up Form -->
-        <div id="signupForm" class="auth-form" style="display: none;">
-          <div class="auth-popup-header">
-            <h2>Sign Up</h2>
-          </div>
-          <div class="auth-popup-body">
-            <form id="signupFormData">
-              <div class="auth-form-group">
-                <label for="signupFullName">Full Name</label>
-                <input type="text" id="signupFullName" name="full_name" required>
-                <div class="auth-error" id="signupFullNameError"></div>
-              </div>
-              <div class="auth-form-group">
-                <label for="signupUsername">Username</label>
-                <input type="text" id="signupUsername" name="username" required>
-                <div class="auth-error" id="signupUsernameError"></div>
-              </div>
-              <div class="auth-form-group">
-                <label for="signupEmail">Email</label>
-                <input type="email" id="signupEmail" name="email" required>
-                <div class="auth-error" id="signupEmailError"></div>
-              </div>
-              <div class="auth-form-group">
-                <label for="signupPassword">Password</label>
-                <input type="password" id="signupPassword" name="password" required>
-                <div class="auth-error" id="signupPasswordError"></div>
-              </div>
-              <div class="auth-loading" id="signupLoading">
-                <div class="auth-spinner"></div>
-                <p>Creating account...</p>
-              </div>
-            </form>
-          </div>
-          <div class="auth-popup-footer">
-            <button type="button" class="auth-btn" onclick="submitSignUp()">Sign Up</button>
-            <div class="auth-switch">
-              Already have an account? <a href="#" onclick="switchToSignin()">Sign In</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- JavaScript -->
     <script src="./assets/main.js"></script>

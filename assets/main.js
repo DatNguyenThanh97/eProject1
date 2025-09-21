@@ -47,7 +47,7 @@ function openFestivalModal(slug) {
   const xhr = new XMLHttpRequest();
   xhr.open(
     "GET",
-    "components/modal.php?slug=" + encodeURIComponent(slug),
+    "components/festival-modal.php?slug=" + encodeURIComponent(slug),
     true
   );
   xhr.onload = function () {
@@ -66,6 +66,36 @@ function closeFestivalModal() {
   document.getElementById("festivalModal").style.display = "none";
 }
 
+// Gallery Modal
+function openGalleryModal(imageUrl, title) {
+  const modal = document.getElementById("galleryModal");
+  const modalContent = document.getElementById("galleryModalContent");
+
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    "components/gallery-modal.php?image_url=" +
+      encodeURIComponent(imageUrl) +
+      "&title=" +
+      encodeURIComponent(title),
+    true
+  );
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      modalContent.innerHTML = xhr.responseText;
+      modal.style.display = "block";
+    } else {
+      modalContent.innerHTML = "<p>Không tải được ảnh.</p>";
+      modal.style.display = "block";
+    }
+  };
+  xhr.send();
+}
+
+function closeGalleryModal() {
+  document.getElementById("galleryModal").style.display = "none";
+}
+
 // Close modal when clicking outside
 window.addEventListener("click", function (event) {
   const modal = document.getElementById("festivalModal");
@@ -73,10 +103,22 @@ window.addEventListener("click", function (event) {
     modal.style.display = "none";
   }
 });
+window.addEventListener("click", function (event) {
+  const modal = document.getElementById("galleryModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
 // Close modal with Escape key
 document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") {
     closeFestivalModal();
+  }
+});
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeGalleryModal();
   }
 });
 
@@ -97,8 +139,28 @@ function downloadFestivalInfo(festival) {
 
 // FAQ Modal
 function openFAQModal() {
-  alert("FAQ section will be available soon!");
+  document.getElementById("faqModal").style.display = "flex";
 }
+
+function closeFAQModal() {
+  document.getElementById("faqModal").style.display = "none";
+}
+
+// Đóng modal khi click ra ngoài
+window.addEventListener("click", function (e) {
+  const modal = document.getElementById("faqModal");
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+// Accordion toggle
+document.querySelectorAll(".faq-question").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const answer = btn.nextElementSibling;
+    answer.classList.toggle("show");
+  });
+});
 
 // Site Map
 function openSiteMap() {
@@ -132,11 +194,9 @@ function renderRoute() {
   }
   const route = routes.find((r) => hash.startsWith(r));
   document.querySelectorAll("[data-route]").forEach((sec) => {
+    const sectionRoutes = sec.getAttribute("data-route").split(" ");
     // Cho phép data-route bắt đầu bằng route
-    sec.classList.toggle(
-      "active",
-      sec.getAttribute("data-route").startsWith(route)
-    );
+    sec.classList.toggle("active", sectionRoutes.includes(route));
   });
   setActiveLink(route);
   // scroll to top on route change
@@ -187,29 +247,58 @@ async function checkAuthStatus() {
 
     if (data.success && data.logged_in) {
       currentUser = data.user;
-      showUserMenu();
+      // showUserMenu();
+      updateContactUI(true);
     } else {
-      showAuthButtons();
+      // showAuthButtons();
+      updateContactUI(false);
     }
   } catch (error) {
     console.error("Error checking auth status:", error);
-    showAuthButtons();
+    // showAuthButtons();
+    updateContactUI(false);
+  }
+}
+
+function updateContactUI(isLoggedIn) {
+  const authRequiredMessage = document.getElementById("authRequiredMessage");
+  const userInfoDisplay = document.getElementById("userInfoDisplay");
+  const feedbackForm = document.getElementById("feedbackForm");
+
+  if (isLoggedIn && currentUser) {
+    // User is logged in - show form
+    authRequiredMessage.style.display = "none";
+    userInfoDisplay.style.display = "block";
+    feedbackForm.style.display = "block";
+
+    // Update user display
+    document.getElementById("currentUserName").textContent =
+      currentUser.full_name || currentUser.username;
+
+    // Pre-fill form if needed
+    document.getElementById("name").value = currentUser.full_name || "";
+    document.getElementById("email").value = currentUser.email || "";
+  } else {
+    // User is not logged in - show auth required message
+    authRequiredMessage.style.display = "block";
+    userInfoDisplay.style.display = "none";
+    feedbackForm.style.display = "none";
   }
 }
 
 // Show authentication buttons
-function showAuthButtons() {
-  document.getElementById("authButtons").style.display = "block";
-  document.getElementById("userMenu").style.display = "none";
-}
+// function showAuthButtons() {
+//   document.getElementById("authButtons").style.display = "block";
+//   document.getElementById("userMenu").style.display = "none";
+// }
 
 // Show user menu
-function showUserMenu() {
-  document.getElementById("authButtons").style.display = "none";
-  document.getElementById("userMenu").style.display = "block";
-  document.getElementById("userDisplayName").textContent =
-    currentUser.full_name || currentUser.username;
-}
+// function showUserMenu() {
+//   document.getElementById("authButtons").style.display = "none";
+//   document.getElementById("userMenu").style.display = "block";
+//   document.getElementById("userDisplayName").textContent =
+//     currentUser.full_name || currentUser.username;
+// }
 
 // Open authentication popup
 function openAuthPopup(type) {
@@ -393,7 +482,8 @@ async function signOut() {
 
     if (data.success) {
       currentUser = null;
-      showAuthButtons();
+      // showAuthButtons();
+      updateContactUI(false);
       showNotification("You have been signed out successfully.", "info");
     }
   } catch (error) {
@@ -402,31 +492,31 @@ async function signOut() {
 }
 
 // Toggle user menu dropdown
-function toggleUserMenu() {
-  const dropdown = document.getElementById("userDropdown");
-  dropdown.classList.toggle("show");
-}
+// function toggleUserMenu() {
+//   const dropdown = document.getElementById("userDropdown");
+//   dropdown.classList.toggle("show");
+// }
 
 // Close user menu when clicking outside
-document.addEventListener("click", function (event) {
-  const userMenu = document.getElementById("userMenu");
-  const dropdown = document.getElementById("userDropdown");
+// document.addEventListener("click", function (event) {
+//   const userMenu = document.getElementById("userMenu");
+//   const dropdown = document.getElementById("userDropdown");
 
-  if (userMenu && !userMenu.contains(event.target)) {
-    dropdown.classList.remove("show");
-  }
-});
+//   if (userMenu && !userMenu.contains(event.target)) {
+//     dropdown.classList.remove("show");
+//   }
+// });
 
 // User menu functions
-function showUserProfile() {
-  showNotification("User profile feature coming soon!", "info");
-  document.getElementById("userDropdown").classList.remove("show");
-}
+// function showUserProfile() {
+//   showNotification("User profile feature coming soon!", "info");
+//   document.getElementById("userDropdown").classList.remove("show");
+// }
 
-function showUserSettings() {
-  showNotification("User settings feature coming soon!", "info");
-  document.getElementById("userDropdown").classList.remove("show");
-}
+// function showUserSettings() {
+//   showNotification("User settings feature coming soon!", "info");
+//   document.getElementById("userDropdown").classList.remove("show");
+// }
 
 // Show notification
 function showNotification(message, type = "info") {
@@ -464,6 +554,57 @@ function showNotification(message, type = "info") {
   }, 3000);
 }
 
+// Feedback form submission with real backend
+document.addEventListener("DOMContentLoaded", function () {
+  const feedbackForm = document.getElementById("feedbackForm");
+  if (feedbackForm) {
+    feedbackForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (currentUser) {
+        const formData = new FormData(this);
+
+        // Add user information
+        formData.append("user_id", currentUser.id);
+
+        // Submit feedback to backend
+        fetch("submit_feedback.php", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              showNotification(
+                "Thank you for your feedback! We will get back to you soon.",
+                "success"
+              );
+              this.reset();
+              // Pre-fill user info again after reset
+              document.getElementById("name").value =
+                currentUser.full_name || "";
+              document.getElementById("email").value = currentUser.email || "";
+            } else {
+              showNotification(
+                "Error submitting feedback. Please try again.",
+                "error"
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            showNotification(
+              "Error submitting feedback. Please try again.",
+              "error"
+            );
+          });
+      } else {
+        showNotification("Please sign in to submit feedback.", "error");
+      }
+    });
+  }
+});
+
 // Close popup when clicking outside
 window.addEventListener("click", function (event) {
   const authPopup = document.getElementById("authPopup");
@@ -481,6 +622,33 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
+
+// Notification animations
+const style = document.createElement("style");
+style.textContent = `
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+`;
+document.head.appendChild(style);
 
 // Filter functionality
 document.querySelectorAll(".filter-select").forEach((select) => {
@@ -536,6 +704,9 @@ function applyFilters() {
       .then((res) => res.text())
       .then((html) => {
         galleryGrid.innerHTML = html;
+        document
+          .getElementById("gallery")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
       });
   }
 }
@@ -590,3 +761,34 @@ function clearFilters() {
       });
   }
 }
+
+// Pagination filter preservation
+document.addEventListener("click", function (e) {
+  if (e.target.matches(".pagination a")) {
+    e.preventDefault();
+    const url = new URL(e.target.href, window.location.origin);
+    const page = url.searchParams.get("page") || 1;
+    const isFestival = e.target.href.includes("#festivals");
+
+    const religion = document.getElementById("religionFilter").value;
+    const month = document.getElementById("monthFilter").value;
+    const country = document.getElementById("countryFilter").value;
+
+    const params = new URLSearchParams();
+    if (religion) params.set("religion", religion);
+    if (month) params.set("month", month);
+    if (country) params.set("country", country);
+    params.set("page", page);
+    params.set("type", isFestival ? "festival" : "gallery");
+
+    const container = isFestival
+      ? document.getElementById("festivalsGridContainer")
+      : document.getElementById("galleryGridContainer");
+
+    container.innerHTML =
+      '<div style="text-align:center;padding:2rem;">Đang tải...</div>';
+    fetch("components/filter.php?" + params.toString())
+      .then((res) => res.text())
+      .then((html) => (container.innerHTML = html));
+  }
+});

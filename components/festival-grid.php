@@ -126,7 +126,11 @@ $result = $stmt->get_result();
 
 <!-- Pagination -->
 <div class="pagination">
-  <?php $query = $_GET ?>
+  <?php $query = array_filter([
+    'religion' => $religion,
+    'month' => $month,
+    'country' => $country
+  ]); ?>
   <?php if ($page > 1): ?>
     <?php $query['page'] = $page - 1; ?>
     <a href="?<?= http_build_query($query) ?>#festivals" class="prev">« Prev</a>

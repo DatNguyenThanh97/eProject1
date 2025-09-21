@@ -6,7 +6,7 @@ $country  = $filters['country'] ?? '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
 
-$limit = 6;
+$limit = 12;
 $offset = ($page - 1) * $limit;
 
 // COUNT query
@@ -96,15 +96,9 @@ $result = $stmt->get_result();
 <div class="gallery-grid">
   <?php if ($result->num_rows > 0): ?>
     <?php while ($row = $result->fetch_assoc()): ?>
-      <div class="gallery-item" onclick="openFestivalModal('<?= htmlspecialchars($row['slug']) ?>')">
+      <div class="gallery-item" onclick="openGalleryModal('<?= htmlspecialchars($row['image_url']) ?>', '<?= htmlspecialchars($row['festival_name']) ?>')">
         <img src="<?= htmlspecialchars($row['image_url']) ?>"
              alt="<?= htmlspecialchars($row['caption'] ?: $row['festival_name']) ?>">
-        <div class="gallery-overlay">
-          <h4><?= htmlspecialchars($row['festival_name']) ?></h4>
-          <?php if ($row['caption']): ?>
-            <p><?= htmlspecialchars($row['caption']) ?></p>
-          <?php endif; ?>
-        </div>
       </div>
     <?php endwhile; ?>
   <?php else: ?>
@@ -123,7 +117,11 @@ $result = $stmt->get_result();
 
 <!-- Pagination -->
 <div class="pagination">
-  <?php $query = $_GET; ?>
+  <?php $query = array_filter([
+    'religion' => $religion,
+    'month' => $month,
+    'country' => $country
+  ]); ?>
   <?php if ($page > 1): ?>
     <?php $query['page'] = $page - 1; ?>
     <a href="?<?= http_build_query($query) ?>#gallery" class="prev">« Prev</a>
