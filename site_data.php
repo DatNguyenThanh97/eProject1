@@ -1,7 +1,6 @@
 <?php
   require_once 'db_connect.php';
   function get_visitor_count(mysqli $db): int{
-    $db = get_db();
     $db->query("UPDATE visitor_count SET total_visits = total_visits + 1 WHERE id = 1"); 
     $visitor_total = 0; 
     if ($res = @$db->query("SELECT total_visits FROM visitor_count WHERE id = 1")) { 

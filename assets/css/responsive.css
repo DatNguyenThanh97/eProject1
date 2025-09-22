@@ -4,6 +4,9 @@
   .header .nav-menu {
     gap: 1.25rem;
   }
+  .container {
+    padding: 0 15px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -16,6 +19,9 @@
   .gallery-grid img {
     height: 200px;
   }
+  body {
+    padding-top: 85px; /* Adjust for tablet */
+  }
 }
 
 @media (max-width: 480px) {
@@ -24,5 +30,19 @@
   }
   .header {
     padding: 0.75rem 0;
+  }
+  body {
+    padding-top: 90px; /* More space for mobile header */
+  }
+  .container {
+    padding: 0 10px;
+  }
+  .auth-buttons .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  .auth-buttons-inline .btn {
+    padding: 6px 16px;
+    font-size: 0.8rem;
   }
 }

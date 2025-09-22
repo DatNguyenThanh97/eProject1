@@ -247,15 +247,15 @@ async function checkAuthStatus() {
 
     if (data.success && data.logged_in) {
       currentUser = data.user;
-      // showUserMenu();
+      showUserMenu();
       updateContactUI(true);
     } else {
-      // showAuthButtons();
+      showAuthButtons();
       updateContactUI(false);
     }
   } catch (error) {
     console.error("Error checking auth status:", error);
-    // showAuthButtons();
+    showAuthButtons();
     updateContactUI(false);
   }
 }
@@ -287,18 +287,18 @@ function updateContactUI(isLoggedIn) {
 }
 
 // Show authentication buttons
-// function showAuthButtons() {
-//   document.getElementById("authButtons").style.display = "block";
-//   document.getElementById("userMenu").style.display = "none";
-// }
+function showAuthButtons() {
+  document.getElementById("authButtons").style.display = "block";
+  document.getElementById("userMenu").style.display = "none";
+}
 
 // Show user menu
-// function showUserMenu() {
-//   document.getElementById("authButtons").style.display = "none";
-//   document.getElementById("userMenu").style.display = "block";
-//   document.getElementById("userDisplayName").textContent =
-//     currentUser.full_name || currentUser.username;
-// }
+function showUserMenu() {
+  document.getElementById("authButtons").style.display = "none";
+  document.getElementById("userMenu").style.display = "block";
+  document.getElementById("userDisplayName").textContent =
+    currentUser.full_name || currentUser.username;
+}
 
 // Open authentication popup
 function openAuthPopup(type) {
@@ -412,6 +412,7 @@ async function submitSignIn() {
       currentUser = data.user;
       closeAuthPopup();
       showUserMenu();
+      updateContactUI(true);
       showNotification(
         "Welcome back, " + currentUser.full_name + "!",
         "success"
@@ -482,7 +483,7 @@ async function signOut() {
 
     if (data.success) {
       currentUser = null;
-      // showAuthButtons();
+      showAuthButtons();
       updateContactUI(false);
       showNotification("You have been signed out successfully.", "info");
     }
@@ -492,31 +493,31 @@ async function signOut() {
 }
 
 // Toggle user menu dropdown
-// function toggleUserMenu() {
-//   const dropdown = document.getElementById("userDropdown");
-//   dropdown.classList.toggle("show");
-// }
+function toggleUserMenu() {
+  const dropdown = document.getElementById("userDropdown");
+  dropdown.classList.toggle("show");
+}
 
 // Close user menu when clicking outside
-// document.addEventListener("click", function (event) {
-//   const userMenu = document.getElementById("userMenu");
-//   const dropdown = document.getElementById("userDropdown");
+document.addEventListener("click", function (event) {
+  const userMenu = document.getElementById("userMenu");
+  const dropdown = document.getElementById("userDropdown");
 
-//   if (userMenu && !userMenu.contains(event.target)) {
-//     dropdown.classList.remove("show");
-//   }
-// });
+  if (userMenu && !userMenu.contains(event.target)) {
+    dropdown.classList.remove("show");
+  }
+});
 
 // User menu functions
-// function showUserProfile() {
-//   showNotification("User profile feature coming soon!", "info");
-//   document.getElementById("userDropdown").classList.remove("show");
-// }
+function showUserProfile() {
+  showNotification("User profile feature coming soon!", "info");
+  document.getElementById("userDropdown").classList.remove("show");
+}
 
-// function showUserSettings() {
-//   showNotification("User settings feature coming soon!", "info");
-//   document.getElementById("userDropdown").classList.remove("show");
-// }
+function showUserSettings() {
+  showNotification("User settings feature coming soon!", "info");
+  document.getElementById("userDropdown").classList.remove("show");
+}
 
 // Show notification
 function showNotification(message, type = "info") {

@@ -99,7 +99,7 @@ $result = $stmt->get_result();
   <?php if ($result->num_rows > 0): ?>
     <?php while ($row = $result->fetch_assoc()): ?>
       <div class="category-card">
-        <img src="<?= htmlspecialchars($row['thumbnail_url'] ?: 'assets/images/thumbnail/default.jpg') ?>"
+        <img src="./<?= htmlspecialchars($row['thumbnail_url'] ?: 'assets/images/thumbnail/default.jpg') ?>"
              alt="<?= htmlspecialchars($row['name']) ?>">
         <div class="category-content">
           <h3><?= htmlspecialchars($row['name']) ?></h3>

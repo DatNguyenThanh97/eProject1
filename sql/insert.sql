@@ -204,22 +204,22 @@ SET @thailand_id = (SELECT country_id FROM country WHERE name = 'Thailand');
 -- 5. Add Gallery:
 -- -------------------------
 -- this can be faster with php but well...
-INSERT INTO gallery (festival_id, country_id, image_url, caption)
+INSERT INTO gallery (festival_id, image_url, caption)
 VALUES
-(@halloween_id, null, 'assets/images/gallery/halloween/halloween1.jpg', 'Halloween means dressing up and celebrating!'),
-(@halloween_id, @us_id, 'assets/images/gallery/halloween/halloween2.jpg', 'Trick or Treat - a popular tradition celebrated during Halloween'),
-(@halloween_id, @us_id, 'assets/images/gallery/halloween/halloween3.jpg', 'Pumkin carving'),
-(@halloween_id, @uk_id, 'assets/images/gallery/halloween/halloween4.jpg', 'Radish carving'),
-(@halloween_id, null, 'assets/images/gallery/halloween/halloween5.jpg', 'Jack-o-lanterns, Will-o-wisps, and witches is the icons of Halloween night'),
-(@halloween_id, @uk_id, 'assets/images/gallery/halloween/halloween-Samhain.jpg', 'Samhain, the origin of Halloween, celebrated the veil between worlds'),
-(@christmas_id, null, 'assets/images/gallery/christmas/christmas0.jpg', 'christmas: a joyful occasion for children to receive presents'),
-(@christmas_id, @uk_id, 'assets/images/gallery/christmas/christmas6.jpg', 'christmas stockings filled with treats and surprises'),
-(@christmas_id, @germany_id, 'assets/images/gallery/christmas/christmas1.jpg', 'Advent Wreath is the evergreen circle symbolizing eternal life and Christmas anticipation'),
-(@christmas_id, @germany_id, 'assets/images/gallery/christmas/christmas2.jpg', 'Yule Log, from ancient Solstice fires to modern Christmas dessert'),
-(@christmas_id, null, 'assets/images/gallery/christmas/christmas3.jpg', 'Decorated evergreen bringing light and festivity into the winter night'),
-(@christmas_id, null, 'assets/images/gallery/christmas/christmas4.jpg', 'Rung to celebrate joy and to chase away the darkness of winter'),
-(@christmas_id, @uk_id, 'assets/images/gallery/christmas/christmas5.jpg', 'Gingerbread, a festive treat long tied to winter and Christmas traditions'),
-(@christmas_id, null, 'assets/images/gallery/christmas/christmas7.jpg', 'A taste of Santa Claus riding his sleigh to deliver gifts on Christmas Eve');
+(@halloween_id, 'assets/images/gallery/halloween/halloween1.jpg', 'Halloween means dressing up and celebrating!'),
+(@halloween_id, 'assets/images/gallery/halloween/halloween2.jpg', 'Trick or Treat - a popular tradition celebrated during Halloween'),
+(@halloween_id, 'assets/images/gallery/halloween/halloween3.jpg', 'Pumkin carving'),
+(@halloween_id, 'assets/images/gallery/halloween/halloween4.jpg', 'Radish carving'),
+(@halloween_id, 'assets/images/gallery/halloween/halloween5.jpg', 'Jack-o-lanterns, Will-o-wisps, and witches is the icons of Halloween night'),
+(@halloween_id, 'assets/images/gallery/halloween/halloween-Samhain.jpg', 'Samhain, the origin of Halloween, celebrated the veil between worlds'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas0.jpg', 'christmas: a joyful occasion for children to receive presents'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas6.jpg', 'christmas stockings filled with treats and surprises'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas1.jpg', 'Advent Wreath is the evergreen circle symbolizing eternal life and Christmas anticipation'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas2.jpg', 'Yule Log, from ancient Solstice fires to modern Christmas dessert'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas3.jpg', 'Decorated evergreen bringing light and festivity into the winter night'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas4.jpg', 'Rung to celebrate joy and to chase away the darkness of winter'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas5.jpg', 'Gingerbread, a festive treat long tied to winter and Christmas traditions'),
+(@christmas_id, 'assets/images/gallery/christmas/christmas7.jpg', 'A taste of Santa Claus riding his sleigh to deliver gifts on Christmas Eve');
 
 -- Christmas
 INSERT INTO festival_country (festival_id, country_id)

@@ -141,15 +141,15 @@ $festivalClass = getFestivalClassFromDB();
           </div>
 
           <!-- Authentication Section -->
-          <!-- <div id="authSection"> -->
+          <div id="authSection">
             <!-- Sign In/Sign Up Buttons (shown when not logged in) -->
-            <!-- <div id="authButtons" class="auth-buttons">
+            <div id="authButtons" class="auth-buttons">
               <button class="btn auth-btn" onclick="openAuthPopup('signin')">Sign In</button>
               <button class="btn auth-btn" onclick="openAuthPopup('signup')">Sign Up</button>
-            </div> -->
+            </div>
 
             <!-- User Menu (shown when logged in) -->
-            <!-- <div id="userMenu" class="user-menu" style="display: none;">
+            <div id="userMenu" class="user-menu" style="display: none;">
               <button class="user-menu-btn" onclick="toggleUserMenu()">
                 <i class="fas fa-user"></i>
                 <span id="userDisplayName">User</span>
@@ -166,7 +166,7 @@ $festivalClass = getFestivalClassFromDB();
                   <i class="fas fa-sign-out-alt"></i> Sign Out
                 </a>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -189,7 +189,10 @@ $festivalClass = getFestivalClassFromDB();
       <div class="container">
         <h2 class="section-title">All Festivals</h2>
         <div id="festivalsGridContainer">
-          <?php include "./components/festival-grid.php"; ?>
+          <?php 
+          $filters = ['religion' => '', 'month' => '', 'country' => ''];
+          include "./components/festival-grid.php"; 
+          ?>
         </div>
         <div id="filterInfo"></div>
       </div>
@@ -210,7 +213,10 @@ $festivalClass = getFestivalClassFromDB();
       <div class="container">
         <h2 class="section-title">Festival Gallery</h2>
         <div id="galleryGridContainer">
-          <?php include "./components/gallery-grid.php"; ?>
+          <?php 
+          $filters = ['religion' => '', 'month' => '', 'country' => ''];
+          include "./components/gallery-grid.php"; 
+          ?>
         </div>
       </div>
     </section>
