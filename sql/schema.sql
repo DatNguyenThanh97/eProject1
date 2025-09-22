@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS festival_country (
     country_id INT,
     PRIMARY KEY (festival_id, country_id),
     FOREIGN KEY (festival_id) REFERENCES festival(festival_id) ON DELETE CASCADE,
-    FOREIGN KEY (country_id) REFERENCES country(country_id) ON DELETE SET NULL
+    FOREIGN KEY (country_id) REFERENCES country(country_id) ON DELETE CASCADE
 );
 
 -- Indexes cho bảng nối
