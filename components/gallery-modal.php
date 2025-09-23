@@ -12,7 +12,7 @@ if (!$image_url) {
 ?>
 
 <div class="gallery-modal-wrapper">
-  <img src="./<?= htmlspecialchars($image_url) ?>" 
+  <img src="<?= htmlspecialchars($image_url) ?>" 
        alt="<?= htmlspecialchars($caption) ?>"
        class="gallery-modal-image">
   

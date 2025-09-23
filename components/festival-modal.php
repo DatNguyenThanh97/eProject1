@@ -32,7 +32,7 @@ $end   = $festival['end_date'] ? date("F j, Y", strtotime($festival['end_date'])
 <h2><?= htmlspecialchars($festival['name']) ?></h2>
 
 <?php if ($festival['thumbnail_url']): ?>
-  <img src="./<?= htmlspecialchars($festival['thumbnail_url']) ?>"
+  <img src="<?= htmlspecialchars($festival['thumbnail_url']) ?>"
        alt="<?= htmlspecialchars($festival['name']) ?>"
        style="max-width:100%;border-radius:10px;margin:1rem 0;">
 <?php endif; ?>
@@ -51,7 +51,7 @@ $end   = $festival['end_date'] ? date("F j, Y", strtotime($festival['end_date'])
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;">
     <?php foreach ($images as $img): ?>
       <div>
-        <img src="./<?= htmlspecialchars($img['image_url']) ?>"
+        <img src="<?= htmlspecialchars($img['image_url']) ?>"
              alt="<?= htmlspecialchars($img['caption'] ?: $festival['name']) ?>"
              style="width:100%;border-radius:8px;">
         <?php if ($img['caption']): ?>
