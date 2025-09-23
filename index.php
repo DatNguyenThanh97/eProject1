@@ -139,35 +139,6 @@ $festivalClass = getFestivalClassFromDB();
             >
             visitors
           </div>
-
-          <!-- Authentication Section -->
-          <!-- <div id="authSection"> -->
-            <!-- Sign In/Sign Up Buttons (shown when not logged in) -->
-            <!-- <div id="authButtons" class="auth-buttons">
-              <button class="btn auth-btn" onclick="openAuthPopup('signin')">Sign In</button>
-              <button class="btn auth-btn" onclick="openAuthPopup('signup')">Sign Up</button>
-            </div> -->
-
-            <!-- User Menu (shown when logged in) -->
-            <!-- <div id="userMenu" class="user-menu" style="display: none;">
-              <button class="user-menu-btn" onclick="toggleUserMenu()">
-                <i class="fas fa-user"></i>
-                <span id="userDisplayName">User</span>
-                <i class="fas fa-chevron-down"></i>
-              </button>
-              <div id="userDropdown" class="user-menu-dropdown">
-                <a href="#" class="user-menu-item" onclick="showUserProfile()">
-                  <i class="fas fa-user-circle"></i> Profile
-                </a>
-                <a href="#" class="user-menu-item" onclick="showUserSettings()">
-                  <i class="fas fa-cog"></i> Settings
-                </a>
-                <a href="#" class="user-menu-item signout" onclick="signOut()">
-                  <i class="fas fa-sign-out-alt"></i> Sign Out
-                </a>
-              </div>
-            </div> -->
-          </div>
         </div>
       </div>
     </header>
@@ -183,6 +154,14 @@ $festivalClass = getFestivalClassFromDB();
         </div>
       </div>
     </section>
+
+    <!-- Featured Festivals Section -->
+<section class="featured-festivals" data-route="home">
+  <div class="container">
+    <h2 class="section-title">Upcoming Festivals</h2>
+    <?php include './components/featured-festival-grid.php'; ?>
+  </div>
+</section>
 
     <!-- Festival Categories -->
     <section id="festivals" class="festival-categories" data-route="festivals">
@@ -580,6 +559,7 @@ $festivalClass = getFestivalClassFromDB();
       </div>
     </div>
 
+    <!-- FAQ Modal -->
     <div id="faqModal" class="faq-modal">
       <div class="faq-modal-content">
         <span span class="faq-close" onclick="closeFAQModal()">&times;</span>

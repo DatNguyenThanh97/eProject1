@@ -49,7 +49,8 @@ $sql = "
     SELECT f.festival_id, f.name, f.slug, f.description, f.thumbnail_url,
            f.start_date, f.end_date,
            r.name AS religion_name,
-           GROUP_CONCAT(DISTINCT co.name SEPARATOR ', ') AS countries
+           GROUP_CONCAT(DISTINCT co.name SEPARATOR ', ') AS countries, 
+           DATEDIFF(f.start_date, CURDATE()) AS days_until
     FROM festival f
     LEFT JOIN religion r ON f.religion_id = r.religion_id
     LEFT JOIN festival_country fc ON f.festival_id = fc.festival_id
@@ -93,23 +94,43 @@ $stmt = $db->prepare($sql);
 $stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
+
+$festivals = [];
+while ($row = $result->fetch_assoc()) {
+    // Tính toán và format "time_until"
+    if ($row['days_until'] == 0) {
+        $row['time_until'] = 'Today!';
+    } elseif ($row['days_until'] == 1) {
+        $row['time_until'] = 'Tomorrow';
+    } elseif ($row['days_until'] <= 30) {
+        $row['time_until'] = $row['days_until'] . ' days left';
+    } else {
+        $months = floor($row['days_until'] / 30);
+        $row['time_until'] = $months . ' month' . ($months > 1 ? 's' : '') . ' left';
+    }
+
+    $festivals[] = $row;
+}
 ?>
 
 <div class="categories-grid">
-  <?php if ($result->num_rows > 0): ?>
-    <?php while ($row = $result->fetch_assoc()): ?>
+  <?php if (count($festivals) > 0): ?>
+    <?php foreach ($festivals as $row): ?>
       <div class="category-card">
         <img src="<?= htmlspecialchars($row['thumbnail_url'] ?: 'assets/images/thumbnail/default.jpg') ?>"
              alt="<?= htmlspecialchars($row['name']) ?>">
         <div class="category-content">
           <h3><?= htmlspecialchars($row['name']) ?></h3>
           <p><?= htmlspecialchars(substr($row['description'], 0, 120)) ?>...</p>
+          <div class="countdown-badge">
+            <?= htmlspecialchars($row['time_until']); ?>
+          </div>
           <a href="javascript:void(0)" class="btn" onclick="openFestivalModal('<?= $row['slug'] ?>')">
             Learn More
           </a>
         </div>
       </div>
-    <?php endwhile; ?>
+    <?php endforeach; ?>
   <?php else: ?>
     <p style="text-align:center;">No festivals found.</p>
   <?php endif; ?>

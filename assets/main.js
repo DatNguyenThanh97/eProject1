@@ -155,11 +155,15 @@ window.addEventListener("click", function (e) {
 });
 
 // Accordion toggle
-document.querySelectorAll(".faq-question").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const answer = btn.nextElementSibling;
-    answer.classList.toggle("show");
-  });
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("faq-question")) {
+    const answer = e.target.nextElementSibling;
+    if (answer.style.maxHeight) {
+      answer.style.maxHeight = null;
+    } else {
+      answer.style.maxHeight = answer.scrollHeight + "px";
+    }
+  }
 });
 
 // Site Map
@@ -222,7 +226,7 @@ if (document.readyState === "loading") {
 window.addEventListener("scroll", function () {
   const header = document.querySelector(".header");
   if (window.scrollY > 100) {
-    header.style.background = "#190d53e4";
+    header.style.background = "var(--primary-color)";
     header.style.backdropFilter = "blur(10px)";
   } else {
     header.style.background =
