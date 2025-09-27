@@ -281,7 +281,7 @@ $festivalClass = getFestivalClassFromDB();
             between groups.
           </p>
           <a href="#" class="cta-button" onclick="downloadAboutPDF()"
-            >Download About Us (PDF)</a
+            >Download About Us</a
           >
         </div>
       </div>
@@ -538,7 +538,7 @@ $festivalClass = getFestivalClassFromDB();
           "
         >
           <p>
-            &copy; 2024 MOONLIGHT EVENTS. All rights reserved. | Promoting
+            &copy; 2025 MOONLIGHT EVENTS. All rights reserved. | Promoting
             Global Cultural Understanding
           </p>
         </div>
@@ -551,7 +551,6 @@ $festivalClass = getFestivalClassFromDB();
         <span id="currentDateTime"></span> |
         <span id="currentLocation"></span> |
         <span>MOONLIGHT EVENTS - Connecting Cultures Through Festivals</span> |
-        <span>Next Festival: Holi Celebration in India - March 25, 2024</span> |
         <span
           >Join us in celebrating diversity and cultural heritage
           worldwide!</span
@@ -566,16 +565,51 @@ $festivalClass = getFestivalClassFromDB();
         <h2>FAQ</h2>
 
         <div class="faq-item">
-          <button class="faq-question">Làm sao để đăng ký?</button>
+          <button class="faq-question">What information does this website provide about festivals?</button>
           <div class="faq-answer">
-            <p>Bạn nhấn nút Sign Up ở góc trên.</p>
+            <p>We provide the history, location, date, and main activities of each festival.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question">Có miễn phí không?</button>
+          <button class="faq-question">Is the information on the website accurate?</button>
           <div class="faq-answer">
-            <p>Dịch vụ cơ bản thì miễn phí, gói nâng cao thì tính phí.</p>
+            <p>All information is for reference only. We strive to keep it updated, but details may change from year to year.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How can I find festivals by country or date?</button>
+          <div class="faq-answer">
+            <p>You can use the filter in the Festivals section to search by country or specific time.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Are there age limits or special requirements to participate?</button>
+          <div class="faq-answer">
+            <p>Most festivals are open to all ages. However, some have specific rules, such as age restrictions (18+), dress codes, or safety requirements. Please check the details before attending.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Can I contribute information about a festival?</button>
+          <div class="faq-answer">
+            <p>Absolutely! If you know an interesting festival not listed, you can send detailed information to us via email or the feedback form on the website. We will review and add it for others to see.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How can I contact the website?</button>
+          <div class="faq-answer">
+            <p>You can contact us directly via support email or fill out the feedback form on the website. Our team will respond as soon as possible.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How can I avoid missing famous festivals?</button>
+          <div class="faq-answer">
+            <p>You can follow the festival calendar regularly updated on the website, subscribe to email notifications, or follow our social media pages to stay informed about exciting events.</p>
           </div>
         </div>
       </div>
