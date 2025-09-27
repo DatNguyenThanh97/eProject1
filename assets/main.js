@@ -168,7 +168,7 @@ document.addEventListener("click", function (e) {
 
 // Site Map
 function openSiteMap() {
-  window.open("assets/site/sitemap.xml");
+  window.open("assets/site/sitemap.php");
 }
 
 // Feedback Form
