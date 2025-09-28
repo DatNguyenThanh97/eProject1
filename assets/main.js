@@ -415,7 +415,7 @@ async function submitSignIn() {
     if (data.success) {
       currentUser = data.user;
       closeAuthPopup();
-      showUserMenu();
+      updateContactUI(true);
       showNotification(
         "Welcome back, " + currentUser.full_name + "!",
         "success"

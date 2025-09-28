@@ -342,6 +342,9 @@ $festivalClass = getFestivalClassFromDB();
             <!-- User Info Display (shown when logged in) -->
             <div id="userInfoDisplay" class="user-info-display" style="display: none;">
               <p><i class="fas fa-user"></i> Signed in as: <span class="user-name" id="currentUserName">User</span></p>
+              <p><a href="#" onclick="signOut(); return false;" style="color: #e74c3c;">
+                <i class="fas fa-sign-out-alt"></i> Sign Out
+              </a></p>
             </div>
             <form id="feedbackForm" style="text-align: left; display: none;">
               <div style="margin-bottom: 1rem">

@@ -4,6 +4,10 @@ require_once '../db_connect.php';
 
 header('Content-Type: application/json');
 
+// Enable error reporting for debugging (remove in production)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
@@ -58,7 +62,7 @@ try {
     $db = get_db();
     
     // Check if username already exists
-    $stmt = $db->prepare("SELECT user_id FROM users WHERE username = ?");
+    $stmt = $db->prepare("SELECT id FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     if ($stmt->get_result()->num_rows > 0) {
@@ -67,7 +71,7 @@ try {
     }
     
     // Check if email already exists
-    $stmt = $db->prepare("SELECT user_id FROM users WHERE email = ?");
+    $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     if ($stmt->get_result()->num_rows > 0) {
@@ -79,13 +83,13 @@ try {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
     // Split full name into first and last name
-    $nameParts = explode(' ', $full_name, 2);
-    $first_name = $nameParts[0];
-    $last_name = isset($nameParts[1]) ? $nameParts[1] : '';
+    // $nameParts = explode(' ', $full_name, 2);
+    // $first_name = $nameParts[0];
+    // $last_name = isset($nameParts[1]) ? $nameParts[1] : '';
     
     // Insert new user
-    $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, first_name, last_name) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $username, $email, $hashed_password, $first_name, $last_name);
+    $stmt = $db->prepare("INSERT INTO users (username, email, password, full_name) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $username, $email, $hashed_password, $full_name);
     
     if ($stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Account created successfully! Please sign in.']);
