@@ -67,7 +67,7 @@ function closeFestivalModal() {
 }
 
 // Gallery Modal
-function openGalleryModal(imageUrl, title) {
+function openGalleryModal(imageUrl, caption) {
   const modal = document.getElementById("galleryModal");
   const modalContent = document.getElementById("galleryModalContent");
 
@@ -76,8 +76,8 @@ function openGalleryModal(imageUrl, title) {
     "GET",
     "components/gallery-modal.php?image_url=" +
       encodeURIComponent(imageUrl) +
-      "&title=" +
-      encodeURIComponent(title),
+      "&caption=" +
+      encodeURIComponent(caption),
     true
   );
   xhr.onload = function () {

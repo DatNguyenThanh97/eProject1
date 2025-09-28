@@ -16,9 +16,7 @@ if (!$image_url) {
        alt="<?= htmlspecialchars($caption) ?>"
        class="gallery-modal-image">
   
-  <?php if ($caption): ?>
-    <div class="gallery-modal-caption">
-      <h3><?= htmlspecialchars($caption) ?></h3>
-    </div>
-  <?php endif; ?>
+  <div class="gallery-modal-caption">
+    <h3><?= htmlspecialchars($caption) ?></h3>
+  </div>
 </div>
