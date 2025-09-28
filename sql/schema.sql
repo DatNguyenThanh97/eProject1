@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS feedback (
     feedback_id INT PRIMARY KEY AUTO_INCREMENT,
     festival_id INT NULL,
     FOREIGN KEY (festival_id) REFERENCES festival(festival_id) ON DELETE SET NULL,
-    user_name VARCHAR(100) DEFAULT 'Anonymous',
+    username VARCHAR(50) DEFAULT 'Anonymous',
     email VARCHAR(100),
     message TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -106,3 +106,15 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_active ON users(is_active);
+
+-- Thêm cột user_id vào bảng feedback để liên kết với bảng users
+ALTER TABLE feedback 
+ADD COLUMN user_id INT NULL;
+
+-- Tạo foreign key từ user_id sang bảng users
+ALTER TABLE feedback 
+ADD CONSTRAINT fk_feedback_user 
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;
+
+-- Index cho cột user_id trong bảng feedback (để tối ưu hóa các truy vấn liên quan đến người dùng)
+CREATE INDEX idx_feedback_user ON feedback(user_id);
