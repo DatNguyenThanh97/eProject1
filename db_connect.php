@@ -7,7 +7,7 @@
 function get_db(): mysqli {
 	$host = 'localhost';
 	$user = 'root';
-	$pass = '';
+	$pass = 'saoalouw123';
 	$name = 'moonlight_event';
 	$port = 3306;
 

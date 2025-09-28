@@ -96,7 +96,7 @@ $result = $stmt->get_result();
 <div class="gallery-grid">
   <?php if ($result->num_rows > 0): ?>
     <?php while ($row = $result->fetch_assoc()): ?>
-      <div class="gallery-item" onclick="openGalleryModal('<?= htmlspecialchars($row['image_url']) ?>', '<?= htmlspecialchars($row['festival_name']) ?>')">
+      <div class="gallery-item" onclick="openGalleryModal('<?= htmlspecialchars($row['image_url']) ?>', '<?= htmlspecialchars($row['caption'] ?: $row['festival_name']) ?>')">
         <img src="<?= htmlspecialchars($row['image_url']) ?>"
              alt="<?= htmlspecialchars($row['caption'] ?: $row['festival_name']) ?>">
       </div>

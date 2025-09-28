@@ -128,6 +128,9 @@ while ($row = $result->fetch_assoc()) {
           <a href="javascript:void(0)" class="btn" onclick="openFestivalModal('<?= $row['slug'] ?>')">
             Learn More
           </a>
+          <a href="export_festival.php?slug=<?= urlencode($row['slug']) ?>" class="btn" style="margin-left: 8px;">
+            <i class="fas fa-download"></i> Download
+          </a>
         </div>
       </div>
     <?php endforeach; ?>
