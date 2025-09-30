@@ -156,12 +156,12 @@ $festivalClass = getFestivalClassFromDB();
     </section>
 
     <!-- Featured Festivals Section -->
-<section class="featured-festivals" data-route="home">
-  <div class="container">
-    <h2 class="section-title">Upcoming Festivals</h2>
-    <?php include './components/featured-festival-grid.php'; ?>
-  </div>
-</section>
+    <section class="featured-festivals" data-route="home">
+      <div class="container">
+        <h2 class="section-title">Upcoming Festivals</h2>
+        <?php include './components/featured-festival-grid.php'; ?>
+      </div>
+    </section>
 
     <!-- Festival Categories -->
     <section id="festivals" class="festival-categories" data-route="festivals">
@@ -183,6 +183,16 @@ $festivalClass = getFestivalClassFromDB();
         </div>
       </div>
     </div>
+
+    <!-- Festival Detail -->
+    <section class="festival-detail" data-route="detail">
+      <div class="container">
+        <h2 class="section-title">Christmas</h2>
+        <div class="detail">
+          <?php include "./components/festival-detail.php"?>
+        </div>
+      </div>
+    </section>
 
     <!-- Gallery Section -->
     <section id="gallery" class="gallery" data-route="gallery">
@@ -513,7 +523,6 @@ $festivalClass = getFestivalClassFromDB();
             <a href="#festivals">By Country</a>
             <a href="#festivals">By Religion</a>
             <a href="#festivals">By Month</a>
-            <a href="#festivals">By Collection</a>
           </div>
 
           <div class="footer-section">
