@@ -425,7 +425,6 @@ textarea:focus {
 }
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 body {
@@ -437,7 +436,7 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  /* padding: 0 20px; */
+  padding: 0 20px;
 }
 /* Header */
 .header {
@@ -1091,8 +1090,14 @@ body.mid-autumn-festival .logo-text {
   }
 }
 
+.detail {
+  max-width: 70ch;
+  margin: 0 auto;
+}
+
 /* Sections */
-.festival-categories {
+.festival-categories,
+.festival-detail {
   padding-top: 5rem;
   padding-bottom: 2rem;
   background: var(--bg-light);

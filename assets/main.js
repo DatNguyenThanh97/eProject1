@@ -182,7 +182,7 @@ if (feedbackForm) {
 }
 
 // SPA Router (hash-based)
-const routes = ["home", "festivals", "gallery", "about", "contact"];
+const routes = ["home", "festivals", "gallery", "about", "contact", "detail"];
 function setActiveLink(route) {
   document.querySelectorAll(".nav-menu a").forEach((a) => {
     const href = a.getAttribute("href");

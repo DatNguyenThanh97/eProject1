@@ -61,3 +61,5 @@ $end   = $festival['end_date'] ? date("F j, Y", strtotime($festival['end_date'])
     <?php endforeach; ?>
   </div>
 <?php endif; ?>
+
+<div class="category-content"><a href="#detail" class="btn" onclick="closeFestivalModal()">More Details</a></div>
