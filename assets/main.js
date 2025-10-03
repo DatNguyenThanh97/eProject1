@@ -171,16 +171,6 @@ function openSiteMap() {
   window.open("assets/site/sitemap.php");
 }
 
-// Feedback Form
-const feedbackForm = document.getElementById("feedbackForm");
-if (feedbackForm) {
-  feedbackForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    alert("Thank you for your feedback! We will get back to you soon.");
-    this.reset();
-  });
-}
-
 // SPA Router (hash-based)
 const routes = ["home", "festivals", "gallery", "about", "contact", "detail"];
 function setActiveLink(route) {
@@ -289,20 +279,6 @@ function updateContactUI(isLoggedIn) {
     feedbackForm.style.display = "none";
   }
 }
-
-// Show authentication buttons
-// function showAuthButtons() {
-//   document.getElementById("authButtons").style.display = "block";
-//   document.getElementById("userMenu").style.display = "none";
-// }
-
-// Show user menu
-// function showUserMenu() {
-//   document.getElementById("authButtons").style.display = "none";
-//   document.getElementById("userMenu").style.display = "block";
-//   document.getElementById("userDisplayName").textContent =
-//     currentUser.full_name || currentUser.username;
-// }
 
 // Open authentication popup
 function openAuthPopup(type) {
@@ -494,33 +470,6 @@ async function signOut() {
     console.error("Sign out error:", error);
   }
 }
-
-// Toggle user menu dropdown
-// function toggleUserMenu() {
-//   const dropdown = document.getElementById("userDropdown");
-//   dropdown.classList.toggle("show");
-// }
-
-// Close user menu when clicking outside
-// document.addEventListener("click", function (event) {
-//   const userMenu = document.getElementById("userMenu");
-//   const dropdown = document.getElementById("userDropdown");
-
-//   if (userMenu && !userMenu.contains(event.target)) {
-//     dropdown.classList.remove("show");
-//   }
-// });
-
-// User menu functions
-// function showUserProfile() {
-//   showNotification("User profile feature coming soon!", "info");
-//   document.getElementById("userDropdown").classList.remove("show");
-// }
-
-// function showUserSettings() {
-//   showNotification("User settings feature coming soon!", "info");
-//   document.getElementById("userDropdown").classList.remove("show");
-// }
 
 // Show notification
 function showNotification(message, type = "info") {
